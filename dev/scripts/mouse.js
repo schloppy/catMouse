@@ -14,6 +14,7 @@ export default class Mouse extends React.Component {
     this.checkKeyPressed = this.checkKeyPressed.bind(this)
     this.moveMouse = this.moveMouse.bind(this)
     this.getSurroundingTiles = this.getSurroundingTiles.bind(this)
+    this.rotateMouse = this.rotateMouse.bind(this)
   }
 
   getSurroundingTiles() {
@@ -31,8 +32,8 @@ export default class Mouse extends React.Component {
     }
 
     let p = board.offsetWidth / 15
-    let originX = mouse.offsetLeft + mouse.offsetWidth / 2 + (this.state.translateX * p),
-      originY = mouse.offsetTop + mouse.offsetHeight / 2 + (this.state.translateY * p)
+    let originX = mouse.offsetLeft + (mouse.offsetWidth / 2) + (this.state.translateX * p),
+      originY = mouse.offsetTop + (mouse.offsetHeight / 2) + (this.state.translateY * p)
 
     let top = document.elementFromPoint(originX, originY - mouse.offsetHeight)
     top.id = 'up'
@@ -52,9 +53,9 @@ export default class Mouse extends React.Component {
     const mouse = document.querySelector('.mouse')
 
     let p = board.offsetWidth / 15
-    let originX = mouse.offsetLeft + mouse.offsetWidth / 2 + (this.state.translateX * p),
-      originY = mouse.offsetTop + mouse.offsetHeight / 2 + (this.state.translateY * p)
-
+    
+    let originX = mouse.offsetLeft + (mouse.offsetWidth / 2) + (this.state.translateX * p),
+      originY = mouse.offsetTop + (mouse.offsetHeight / 2) + (this.state.translateY * p)
     const tiles = this.getSurroundingTiles()
 
     switch (event.keyCode) {
@@ -142,13 +143,12 @@ export default class Mouse extends React.Component {
 
       switch (nextTile.className) {
         case 't':
-          setTimeout(() => {
-            this.setState({
-              translateX: 0,
-              translateY: 0,
-              direction: 'right'
-            })
-          }, 100)
+          this.setState({
+            translateX: 0,
+            translateY: 0,
+            direction: 'right'
+          })
+          this.props.updateScore(-5)
           break;
         case 'x':
           setTimeout(() => {
@@ -183,6 +183,25 @@ export default class Mouse extends React.Component {
     }
     let movement = setInterval(autoMovement, 300)
   }
+
+  rotateMouse() {
+    let deg
+    switch(this.state.direction) {
+      case 'up':
+        deg = -90
+        break;
+      case 'right':
+        deg = 0
+        break;
+      case 'down':
+        deg = 90
+        break;
+      case 'left':
+        deg = -180
+        break;
+    }
+    return deg
+  }
   
   componentDidMount() {
     window.addEventListener('keydown', this.checkKeyPressed, false)
@@ -191,9 +210,13 @@ export default class Mouse extends React.Component {
 
   render() {
     return (
-      <div className="mouse" id="mouse" style={{transform: `translate(${this.state.translateX*5}vh, ${this.state.translateY*5}vh)`}}>
-        
-      </div>
+      <img
+      className="mouse"
+      id="mouse"
+      src="public/assets/mouse.gif"
+      style={{
+        transform: `translate(${this.state.translateX*5}vh, ${this.state.translateY*5}vh) rotate(${this.rotateMouse()}deg)`
+      }} />
     )
   }
 }

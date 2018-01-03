@@ -1,11 +1,8 @@
 .mouse {
-  width: 10%;
-  height: 10%;
+  width: 5vh;
   position: absolute;
   display: flex;
   top: 25vh;
   left: 5vh;
-  background: cornflowerblue;
-  border-radius: 50%;
   transition: transform 0.3s linear;
 }

@@ -1,0 +1,24 @@
+.board {
+  position: relative;
+  width: 75vh;
+  height: 75vh;
+  div {
+    color: rgba(0, 0, 0, 0);
+    width: 5vh;
+    height: 5vh;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-size: 0rem;
+  }
+  h3 {
+    position: absolute;
+    color: black;
+    top: 80vh;
+    left: 0;
+    width: 100%;
+    margin: 0.75rem 0;
+    text-align: center;
+  }
+}

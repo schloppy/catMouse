@@ -1,0 +1,61 @@
+.w {
+  background-color: lighten(black, 20%);
+}
+
+.f,
+.x,
+.y {
+  background: antiquewhite;
+  position: relative;
+}
+
+.x::before,
+.y::before {
+  content: '';
+  position: absolute;
+}
+
+.x::before {
+  border-radius: 50%;
+  background-color: chocolate;
+  width: 0.5rem;
+  height: 0.5rem;
+  top: calc(50% - 0.25rem);
+  left: calc(50% - 0.25rem);
+}
+
+.y::before {
+  background-color: goldenrod;
+  width: 1.5rem;
+  height: 1.5rem;
+  top: calc(50% - 0.75rem);
+  left: calc(50% - 0.75rem);
+  transform: rotate(67.5deg);
+}
+
+.t {
+  border: 0.5rem solid antiquewhite;
+  background: red;
+}
+
+.s {
+  border: 1rem solid antiquewhite;
+  background: green;
+}
+
+.b {
+  border-left: 0.5rem solid lighten(black, 20%);
+  border-right: 0.5rem solid lighten(black, 20%);
+  background: antiquewhite;
+}
+
+.d {
+  border-top: 0.5rem solid lighten(black, 20%);
+  border-bottom: 0.5rem solid lighten(black, 20%);
+  background: antiquewhite;
+}
+
+.s {
+  border: 0.5rem solid antiquewhite;
+  background: green;
+}

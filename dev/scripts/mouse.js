@@ -51,7 +51,7 @@ export default class Mouse extends React.Component {
 
     const mouse = document.querySelector('.mouse')
 
-    let p = board.offsetWidth / 10
+    let p = board.offsetWidth / 15
     let originX = mouse.offsetLeft + mouse.offsetWidth / 2 + (this.state.translateX * p),
       originY = mouse.offsetTop + mouse.offsetHeight / 2 + (this.state.translateY * p)
 

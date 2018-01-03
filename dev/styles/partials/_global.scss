@@ -1,0 +1,14 @@
+// Stylized Fonts
+
+h1,h2,h3 {
+    font-family: $primaryFont;
+}
+
+body, p {
+    font-family: $bodyFont;
+}
+
+li {
+    font-size: 0.8rem;
+    display: none;
+}

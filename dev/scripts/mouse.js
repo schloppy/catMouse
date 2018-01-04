@@ -178,6 +178,12 @@ export default class Mouse extends React.Component {
             }
           }, 300)
           break;
+        case 'e':
+          setTimeout(() => {
+            // PROP 'false' to PARENT
+          }, 300)
+          break;
+
       }
 
       this.setState({

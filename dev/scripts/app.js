@@ -32,15 +32,15 @@ class App extends React.Component {
   }
 
   handleInstructionClick() {
-    this.setState(prevState => ({
-      showInstructions: !prevState.showInstructions
-    }));
+    this.setState({
+      showInstructions: !this.state.showInstructions
+    });
   }
 
   handlePlayClick() {
-    this.setState(prevState => ({
-      showBoard: !prevState.showBoard
-    }))
+    this.setState({
+      showBoard: !this.state.showBoard
+    })
     console.log(this.state.ShowBoard)
   }
 
@@ -76,6 +76,7 @@ class App extends React.Component {
             score={this.state.score}
             updateScore={this.updateScore}
             level={this.state.currentLevel}
+            isPlaying={this.handlePlayClick}
             />
 
         ) : (
@@ -85,23 +86,19 @@ class App extends React.Component {
           //play button to show game
           <div className="startScreen">
             <Introduction />
-            <button className="play"
+            <button
+              className="play"
               onClick={this.handlePlayClick}>
               {showBoard ? 'Exit' : 'Play'}
-              </button>
-              <button className="howTo"
-                onClick={this.handleInstructionClick}>
-                {showInstructions ? 'Close': 'How to Play'}
-                </button>
-              
-                {showInstructions ? (
-                  <Instructions />
-                ) : (
-                    null
-                  )}
-                
-
-            </div>
+            </button>
+            <button
+              className="howTo"
+              onClick={this.handleInstructionClick}
+            >
+              {showInstructions ? 'Close': 'How to Play'}
+            </button>
+              {showInstructions ? <Instructions /> : null}
+          </div>
         )}
         </div>
 

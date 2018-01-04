@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      showInstructions: true,
+      showInstructions: false,
       showBoard: false,
       currentLevel: [],
       score: 0
@@ -27,7 +27,9 @@ class App extends React.Component {
   }
 
   handlePlayClick() {
-
+    this.setState(prevState => {
+      showBoard: !prevState.showBoard
+    })
   }
 
   playLevel(i) {
@@ -49,7 +51,7 @@ class App extends React.Component {
     render() {
       return (
 
-        // conditional rendering based on button clicks
+        // conditionalp rendering based on button clicks
         // button click play display board
         // button click how to play display Instructions
           
@@ -60,13 +62,15 @@ class App extends React.Component {
           </button>
           
           <button onClick={this.handleInstructionClick}>
-            {this.state.showInstructions ? 'How to Play' : 'Close'}
+            {this.state.showInstructions ? 'Close' : 'How to Play'}
           </button>
             <Instructions instructions={this.state.showInstructions} />
           <Board
             score={this.state.score}
             updateScore={this.updateScore}
-            level={this.state.currentLevel} />
+            level={this.state.currentLevel}
+            play={this.state.showBoard}
+            />
 
         </div>
 

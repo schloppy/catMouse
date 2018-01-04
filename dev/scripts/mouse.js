@@ -102,7 +102,7 @@ export default class Mouse extends React.Component {
 
       const nextTile = document.getElementById(this.state.direction)
 
-      if (nextTile.className ==='w') {
+      if (nextTile.className === 'w') {
         return
       }
 

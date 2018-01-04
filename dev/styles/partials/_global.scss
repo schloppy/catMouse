@@ -4,6 +4,11 @@ h1,h2,h3 {
     font-family: $primaryFont;
 }
 
+body {
+    @include flex-center;
+    height: 100vh;
+}
+
 body, p {
     font-family: $bodyFont;
 }

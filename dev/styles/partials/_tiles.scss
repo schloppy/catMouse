@@ -1,61 +1,94 @@
+// wall
 .w {
   background-color: lighten(black, 20%);
 }
 
+// floor, crumbs, cheese, trap
 .f,
 .x,
-.y {
+.y,
+.t {
   background: antiquewhite;
   position: relative;
 }
 
+// trap, crumb, cheese
+.t,
+.x,
+.y {
+  &::before,
+  &::after {
+    content: '';
+  }
+}
+
+// crumb, floor
 .x::before,
-.y::before {
-  content: '';
+.x::after,
+.f::before {
   position: absolute;
 }
 
+// crumb
 .x::before {
   border-radius: 50%;
-  background-color: chocolate;
-  width: 0.5rem;
-  height: 0.5rem;
-  top: calc(50% - 0.25rem);
-  left: calc(50% - 0.25rem);
+  background: #f4a519;
+  width: 1vh;
+  height: 1vh;
+  top: calc(50% - 0.5vh);
+  left: calc(50% - 0.5vh);
+  animation: 3s infinite crumb-float cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 
+// crumb's shadow
+.x::after {
+  z-index: 1;
+  border-radius: 50%;
+  background: rgba(black, 0.33);
+  width: 1vh;
+  height: 0.35vh;
+  top: calc(50% + 1vh);
+  left: calc(50% - 0.5vh);
+  animation: 3s infinite crumb-shadow cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+// cheese
 .y::before {
-  background-color: goldenrod;
-  width: 1.5rem;
-  height: 1.5rem;
-  top: calc(50% - 0.75rem);
-  left: calc(50% - 0.75rem);
-  transform: rotate(67.5deg);
+  content: '';
+  background: url('../assets/cheese.png') 0 0/cover;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-13deg);
+  animation: 2.5s infinite tile-rotate cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 
-.t {
-  border: 0.5rem solid antiquewhite;
-  background: red;
+// trap
+.t::before {
+  content: '';
+  background: url('../assets/poison.png') 0 0/cover;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-13deg);
+  animation: 2s infinite tile-rotate cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 
+// switch
 .s {
-  border: 1rem solid antiquewhite;
+  border: 0.5rem solid antiquewhite;
   background: green;
 }
 
+
+// bridge
 .b {
   border-left: 0.5rem solid lighten(black, 20%);
   border-right: 0.5rem solid lighten(black, 20%);
   background: antiquewhite;
 }
 
+// bridge flipped
 .d {
   border-top: 0.5rem solid lighten(black, 20%);
   border-bottom: 0.5rem solid lighten(black, 20%);
   background: antiquewhite;
-}
-
-.s {
-  border: 0.5rem solid antiquewhite;
-  background: green;
 }

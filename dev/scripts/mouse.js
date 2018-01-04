@@ -32,8 +32,8 @@ export default class Mouse extends React.Component {
     }
 
     let p = board.offsetWidth / 15
-    let originX = mouse.offsetLeft + (mouse.offsetWidth / 2) + (this.state.translateX * p),
-      originY = mouse.offsetTop + (mouse.offsetHeight / 2) + (this.state.translateY * p)
+    let originX = board.offsetLeft + mouse.offsetLeft + (mouse.offsetWidth / 2) + (this.state.translateX * p),
+      originY = board.offsetTop + mouse.offsetTop + (mouse.offsetHeight / 2) + (this.state.translateY * p)
 
     let top = document.elementFromPoint(originX, originY - mouse.offsetHeight)
     top.id = 'up'
@@ -143,12 +143,10 @@ export default class Mouse extends React.Component {
 
       switch (nextTile.className) {
         case 't':
-          this.setState({
-            translateX: 0,
-            translateY: 0,
-            direction: 'right'
-          })
-          this.props.updateScore(-5)
+          setTimeout(() => {
+            nextTile.className = 'f'
+            this.props.updateScore(-5)
+          }, 150)
           break;
         case 'x':
           setTimeout(() => {
@@ -197,7 +195,7 @@ export default class Mouse extends React.Component {
         deg = 90
         break;
       case 'left':
-        deg = -180
+        deg = 180
         break;
     }
     return deg
@@ -210,13 +208,14 @@ export default class Mouse extends React.Component {
 
   render() {
     return (
-      <img
-      className="mouse"
-      id="mouse"
-      src="public/assets/mouse.gif"
-      style={{
-        transform: `translate(${this.state.translateX*5}vh, ${this.state.translateY*5}vh) rotate(${this.rotateMouse()}deg)`
-      }} />
+      <div
+        className="mouse"
+        id="mouse"
+        style={{
+          transform: `translate(${this.state.translateX * 5}vh, ${this.state.translateY * 5}vh)rotate(${this.rotateMouse()}deg)`
+        }}
+      >
+      </div>
     )
   }
 }

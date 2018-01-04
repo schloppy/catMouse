@@ -6,7 +6,8 @@
     color: rgba(0, 0, 0, 0);
     width: 5vh;
     height: 5vh;
-    display: inline-flex;
+    display: flex;
+    float: left;
     justify-content: center;
     align-items: center;
     margin: 0;

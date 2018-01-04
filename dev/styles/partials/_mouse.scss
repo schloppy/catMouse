@@ -1,8 +1,16 @@
 .mouse {
   width: 5vh;
   position: absolute;
-  display: flex;
+  overflow: visible;
   top: 25vh;
   left: 5vh;
   transition: transform 0.3s linear;
+  z-index: 1;
+  &::after {
+    content: '';
+    background: url('../assets/mouse.gif') 0 0/cover;
+    width: 8vh;
+    height: 8vh;
+    position: absolute;
+  }
 }

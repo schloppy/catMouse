@@ -1,0 +1,29 @@
+// animation to make the crumbs float
+@keyframes crumb-float {
+  50% {
+    transform: translateY(-0.5vh);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+// animation to make the crumbs appear to have a shadow while floating
+@keyframes crumb-shadow {
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// animation to make a tile rotate
+@keyframes tile-rotate {
+  50% {
+    transform: rotate(13deg);
+  }
+  100% {
+    transform: rotate(-13deg);
+  }
+}

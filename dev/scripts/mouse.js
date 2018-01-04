@@ -6,6 +6,8 @@ export default class Mouse extends React.Component {
   constructor() {
     super();
     this.state = {
+      positionTop: 0,
+      positionLeft: 0,
       direction: 'right',
       translateX: 0,
       translateY: 0,
@@ -28,6 +30,7 @@ export default class Mouse extends React.Component {
     })
 
     for (let tile in tiles) {
+      console.log(tiles[tile])
       tiles[tile].id = ''
     }
 
@@ -44,7 +47,8 @@ export default class Mouse extends React.Component {
     let left = document.elementFromPoint(originX - mouse.offsetWidth, originY)
     left.id = 'left'
 
-    return [top, right, bottom, left]
+    let list = [top, right, bottom, left]
+    return list
 
   }
 
@@ -101,6 +105,8 @@ export default class Mouse extends React.Component {
       let tiles = this.getSurroundingTiles()
 
       const nextTile = document.getElementById(this.state.direction)
+
+      console.log(nextTile)
 
       if (nextTile.className === 'w') {
         return
@@ -205,14 +211,16 @@ export default class Mouse extends React.Component {
     window.addEventListener('keydown', this.checkKeyPressed, false)
     this.moveMouse()
   }
-
+  
   render() {
     return (
       <div
         className="mouse"
         id="mouse"
         style={{
-          transform: `translate(${this.state.translateX * 5}vh, ${this.state.translateY * 5}vh)rotate(${this.rotateMouse()}deg)`
+          transform: `translate(${this.state.translateX * 5}vh, ${this.state.translateY * 5}vh)rotate(${this.rotateMouse()}deg)`,
+          top: `${this.props.pTop}vh`,
+          left: `${this.props.pLeft}%`
         }}
       >
       </div>

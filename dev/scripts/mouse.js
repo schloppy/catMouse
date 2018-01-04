@@ -180,7 +180,7 @@ export default class Mouse extends React.Component {
           break;
         case 'e':
           setTimeout(() => {
-            // PROP 'false' to PARENT
+            this.props.isPlaying()
           }, 300)
           break;
 

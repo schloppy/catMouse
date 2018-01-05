@@ -23,7 +23,8 @@ export default class Board extends React.Component {
           updateScore={this.props.updateScore}
           pLeft={positionLeft}
           pTop={positionTop}
-          ifsPlaying={this.props.isPlaying}
+          isPlaying={this.props.isPlaying}
+          endLevel={this.props.endLevel}
         />
         
         <div className="gameInfo">

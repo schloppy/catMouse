@@ -25,6 +25,7 @@ class App extends React.Component {
     this.state = {
       showInstructions: false,
       showBoard: false,
+      endScreen: false,
       currentLevel: [],
       score: 0
     }
@@ -32,6 +33,7 @@ class App extends React.Component {
     this.handlePlayClick = this.handlePlayClick.bind(this);
     this.playLevel = this.playLevel.bind(this);
     this.updateScore = this.updateScore.bind(this);
+    this.endScreen = this.endScreen.bind(this);
   }
 
   handleInstructionClick() {
@@ -45,6 +47,12 @@ class App extends React.Component {
       showBoard: !this.state.showBoard
     })
     console.log(this.state.ShowBoard)
+  }
+
+  endScreen() {
+    this.setState({
+      endScreen: !this.state.endScreen
+    })
   }
 
   playLevel(i) {
@@ -80,6 +88,7 @@ class App extends React.Component {
             updateScore={this.updateScore}
             level={this.state.currentLevel}
             isPlaying={this.handlePlayClick}
+            endLevel={this.endScreen}
             />
 
         ) : (
@@ -103,13 +112,31 @@ class App extends React.Component {
                 </button>
             </div>
               {showInstructions ? <Instructions /> : null}
+              <Endscreen end={this.state.endScreen}
+                currentLevel={levels.indexOf(this.state.currentLevel)}
+              score={this.state.score}
+              />
           </div>
         )}
+        
         </div>
 
           
       )
     }
+}
+
+function Endscreen(props) {
+  if(!props.end) {
+    return null;
+  }
+  return (
+    <div className="endScreen">
+      <p>Congrats you beat level  {props.currentLevel}</p>
+      <p>You got {props.score} score!
+      </p>
+    </div>
+  )
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));

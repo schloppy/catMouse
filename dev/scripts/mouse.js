@@ -177,7 +177,11 @@ export default class Mouse extends React.Component {
           break;
         case 'e':
           setTimeout(() => {
+            console.log('Level Ended!')
+            // props to parent to change gameboard state to dismount
             this.props.isPlaying()
+            // props to parent to change state of levelEnded to mount
+            this.props.endLevel()
           }, 300)
           break;
 

@@ -7,6 +7,14 @@ h1,h2,h3 {
     padding: 0;
 }
 
+h1 {
+    font-size: 2.4rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
 body {
     @include flex-center;
     height: 100vh;

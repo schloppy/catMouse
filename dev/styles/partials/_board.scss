@@ -20,10 +20,12 @@ div.gameInfo {
   position: absolute;
   top: -40px;
   width: 75vh;
-  height: 12vh;
-  h3 {
-    color: black;
-    padding: 2px;
-    margin: 0.75rem 0;
-  }
+  font-family: $primaryFont;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.life {
+  background: url('../assets/heart.png') 0 0/cover;
 }

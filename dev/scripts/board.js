@@ -6,6 +6,7 @@ import Mouse from './mouse'
 export default class Board extends React.Component {
   render() {
 
+    // This code grabs the index of the starting point, then calculates the position that the mouse will start on based on that index
     const { level } = this.props
 
     const index = level.indexOf('z')
@@ -16,18 +17,35 @@ export default class Board extends React.Component {
     const positionTop = (Math.floor(multiple) * 5)
     const positionLeft = (remainder * 100)
 
+    // This code will determine how many lives to display next to the score
+
+    let lives = []
+
+    for (let i = 0; i < this.props.lives; i++) {
+      lives.push(<div className="life"></div>)
+    }
+
     return (
       <div className="board" id="board">
         {this.props.level.map((tile, i) => <div className={`${tile}`} key={i}>.</div>)}
         <Mouse
           updateScore={this.props.updateScore}
+          updateCrumbs={this.props.updateCrumbs}
+          updateCheese={this.props.updateCheese}
+          updatePoison={this.props.updatePoison}
+          updateLives={this.props.updateLives}
           pLeft={positionLeft}
           pTop={positionTop}
-          ifsPlaying={this.props.isPlaying}
+          isPlaying={this.props.isPlaying}
         />
         
         <div className="gameInfo">
-          <h3>{this.props.score}</h3>
+          {this.props.score}
+          <span>
+            {lives.map(heart => {
+              return heart
+            })}
+          </span>
         </div>
       </div>
     )

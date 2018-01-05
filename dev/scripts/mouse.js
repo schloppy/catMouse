@@ -98,6 +98,8 @@ export default class Mouse extends React.Component {
         break;
     }
 
+    this.rotateMouse()
+
   }
 
   moveMouse() {
@@ -206,22 +208,84 @@ export default class Mouse extends React.Component {
   }
 
   rotateMouse() {
-    let deg
     switch(this.state.direction) {
       case 'up':
-        deg = -90
+        switch (this.state.prevDir) {
+          case 'left':
+            this.setState({
+              rotation: this.state.rotation + 90
+            })
+            break;
+          case 'right':
+            this.setState({
+              rotation: this.state.rotation - 90
+            })
+            break;
+          case 'down':
+            this.setState({
+              rotation: this.state.rotation - 180
+            })
+            break;
+        }
         break;
       case 'right':
-        deg = 0
+        switch (this.state.prevDir) {
+          case 'left':
+            this.setState({
+              rotation: this.state.rotation + 180
+            })
+            break;
+          case 'up':
+          this.setState({
+              rotation: this.state.rotation + 90
+            })
+            break;
+          case 'down':
+          this.setState({
+              rotation: this.state.rotation - 90
+            })
+            break;
+        }
         break;
       case 'down':
-        deg = 90
+        switch (this.state.prevDir) {
+          case 'left':
+          this.setState({
+              rotation: this.state.rotation - 90
+            })
+            break;
+          case 'right':
+          this.setState({
+              rotation: this.state.rotation + 90
+            })
+            break;
+          case 'up':
+          this.setState({
+              rotation: this.state.rotation + 180
+            })
+            break;
+        }
         break;
       case 'left':
-        deg = 180
+        switch (this.state.prevDir) {
+          case 'up':
+          this.setState({
+              rotation: this.state.rotation - 90
+            })
+            break;
+          case 'right':
+          this.setState({
+              rotation: this.state.rotation - 180
+            })
+            break;
+          case 'down':
+          this.setState({
+              rotation: this.state.rotation + 90
+            })
+            break;
+        }
         break;
     }
-    return deg
   }
   
   componentDidMount() {
@@ -235,7 +299,7 @@ export default class Mouse extends React.Component {
         className="mouse"
         id="mouse"
         style={{
-          transform: `translate(${this.state.translateX * 5}vh, ${this.state.translateY * 5}vh)rotate(${this.rotateMouse()}deg)`,
+          transform: `translate(${this.state.translateX * 5}vh, ${this.state.translateY * 5}vh)rotate(${this.state.rotation}deg)`,
           top: `${this.props.pTop}vh`,
           left: `${this.props.pLeft}%`
         }}

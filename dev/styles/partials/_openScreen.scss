@@ -1,0 +1,47 @@
+.startScreen {
+    align-content: center;
+    text-align: center;
+    margin: 0 auto;
+    width: 80vh;
+}
+
+.introduction {
+    position: relative;
+    z-index:-10;
+}
+
+.startButtons {
+    @include flex-center;
+    justify-content: space-around;
+    align-content: center;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 2rem;
+}
+
+button.close {
+    @include flex-center;
+    @include circle(3.5rem);
+    position: absolute;
+    top: 38%;
+    left: 72%;
+    z-index: 15;
+    background: tomato;
+    color: white;
+    font-weight: bold;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.instructions {
+    @include roundCorners(2rem);
+    background: #93278f;
+    color: white;
+    width: 50%;
+    padding: 2.5rem;
+    position: absolute;
+    top: 40%;
+    left: 25%;
+    z-index: 10;
+}

@@ -27,8 +27,8 @@ export default class Instructions extends React.Component {
                         <span className="cat"></span>
                     </li>
                     <li>There are also bridges you may have to cross to get to the finish line. Just hit the switch to change the bridge direction.
-                <span class="switch"></span>
-                        <span class="bridge"></span>
+                <span className="switch"></span>
+                        <span className="bridge"></span>
                     </li>
                 </ul>
 

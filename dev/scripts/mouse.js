@@ -30,7 +30,6 @@ export default class Mouse extends React.Component {
     })
 
     for (let tile in tiles) {
-      console.log(tiles[tile])
       tiles[tile].id = ''
     }
 

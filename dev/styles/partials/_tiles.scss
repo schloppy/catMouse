@@ -8,7 +8,6 @@
 .x,
 .y,
 .t {
-  background: antiquewhite;
   position: relative;
 }
 
@@ -74,34 +73,28 @@
 
 // switch
 .s {
-  border: 0.5rem solid antiquewhite;
   background: green;
 }
 
 
 // bridge
-.b {
-  border-left: 0.5rem solid lighten(black, 20%);
-  border-right: 0.5rem solid lighten(black, 20%);
-  background: antiquewhite;
+.d {
+  background: url('../assets/bridge.png') 0 0/cover;
+  transform: rotate(90deg);
 }
 
 // bridge flipped
-.d {
-  border-top: 0.5rem solid lighten(black, 20%);
-  border-bottom: 0.5rem solid lighten(black, 20%);
-  background: antiquewhite;
+.b {
+  background: url('../assets/bridge.png') 0 0/cover;
 }
 
 
 // starting flag
 .z {
-  border: 0.5rem solid antiquewhite;
-  background: blue;
+  background: url('../assets/start-flag.png') 0 0/cover;
 }
 
 // ending flag
 .e {
-border: 0.5rem solid antiquewhite;
-  background: red;
+  background: url('../assets/end-flag.png') 0 0/cover;
 }

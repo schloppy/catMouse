@@ -104,9 +104,7 @@ export default class Mouse extends React.Component {
       let tiles = this.getSurroundingTiles()
 
       const nextTile = document.getElementById(this.state.direction)
-
-      console.log(nextTile)
-
+      
       if (nextTile.className === 'w') {
         return
       }

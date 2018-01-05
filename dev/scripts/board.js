@@ -16,8 +16,6 @@ export default class Board extends React.Component {
     const positionTop = (Math.floor(multiple) * 5)
     const positionLeft = (remainder * 100)
 
-    console.log('why')
-
     return (
       <div className="board" id="board">
         {this.props.level.map((tile, i) => <div className={`${tile}`} key={i}>.</div>)}

@@ -3,3 +3,19 @@
   justify-content: center;
   align-items: center;
 }
+
+@mixin circle($size) {
+  height: $size;
+  width: $size;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
+}
+
+@mixin roundCorners($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}

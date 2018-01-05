@@ -3,7 +3,7 @@
   width: 75vh;
   height: 75vh;
   background: antiquewhite;
-  div {
+  div:not(.gameInfo) {
     width: 5vh;
     height: 5vh;
     display: flex;
@@ -13,13 +13,17 @@
     margin: 0;
     font-size: 0rem;
   }
+  
+}
+
+div.gameInfo {
+  position: absolute;
+  top: -40px;
+  width: 75vh;
+  height: 12vh;
   h3 {
-    position: absolute;
     color: black;
-    top: 80vh;
-    left: 0;
-    width: 100%;
+    padding: 2px;
     margin: 0.75rem 0;
-    text-align: center;
   }
 }

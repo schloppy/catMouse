@@ -2,18 +2,26 @@
 
 h1,h2,h3 {
     font-family: $primaryFont;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
 }
 
 body {
     @include flex-center;
     height: 100vh;
+    background: $primaryColor;
 }
 
 body, p {
     font-family: $bodyFont;
 }
 
-li {
-    font-size: 0.8rem;
-    display: none;
+button {    
+    @include roundCorners(20px);
+    font-family: $primaryFont;
+    padding: 15px;
+    background: $accentColor1;
+    color: white;
+    border: none;
 }

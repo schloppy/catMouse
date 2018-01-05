@@ -9,8 +9,11 @@ function Introduction() {
     <div className="introduction">
       <h1>Rat Chase</h1>
       <p>
-        Help Stu get out of the sewers, through the garden and into the kitchen pantry.
+        Help Stu get to the end of the maze.
       </p>
+      {/* <p>
+        Help Stu get out of the sewers, through the garden and into the kitchen pantry.
+      </p> */}
     </div>
   )
 }
@@ -86,17 +89,19 @@ class App extends React.Component {
           //play button to show game
           <div className="startScreen">
             <Introduction />
-            <button
-              className="play"
-              onClick={this.handlePlayClick}>
-              {showBoard ? 'Exit' : 'Play'}
-            </button>
-            <button
-              className="howTo"
-              onClick={this.handleInstructionClick}
-            >
-              {showInstructions ? 'Close': 'How to Play'}
-            </button>
+            <div className="startButtons">
+                <button
+                  className="play"
+                  onClick={this.handlePlayClick}>
+                  {showBoard ? 'Exit' : 'Play'}
+                </button>
+                <button
+                  className={showInstructions ? 'close' : 'howTo'}
+                  onClick={this.handleInstructionClick}
+                >
+                  {showInstructions ? 'x' : 'How to Play'}
+                </button>
+            </div>
               {showInstructions ? <Instructions /> : null}
           </div>
         )}

@@ -23,9 +23,12 @@ export default class Board extends React.Component {
           updateScore={this.props.updateScore}
           pLeft={positionLeft}
           pTop={positionTop}
-          isPlaying={this.props.isPlaying}
+          ifsPlaying={this.props.isPlaying}
         />
-        <h3>{this.props.score}</h3>
+        
+        <div className="gameInfo">
+          <h3>{this.props.score}</h3>
+        </div>
       </div>
     )
   }

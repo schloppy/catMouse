@@ -26,12 +26,20 @@ class App extends React.Component {
       showInstructions: false,
       showBoard: false,
       currentLevel: [],
-      score: 0
+      score: 0,
+      lives: 5,
+      crumbs: 0,
+      cheese: 0,
+      poison: 0
     }
     this.handleInstructionClick = this.handleInstructionClick.bind(this);
     this.handlePlayClick = this.handlePlayClick.bind(this);
     this.playLevel = this.playLevel.bind(this);
     this.updateScore = this.updateScore.bind(this);
+    this.updateCrumbs = this.updateCrumbs.bind(this);
+    this.updateCheese = this.updateCheese.bind(this);
+    this.updatePoison = this.updatePoison.bind(this);
+    this.updateLives = this.updateLives.bind(this);
   }
 
   handleInstructionClick() {
@@ -63,6 +71,30 @@ class App extends React.Component {
     })
   }
 
+  updateLives(v) {
+    this.setState({
+      lives: this.state.lives + v
+    })
+  }
+
+  updateCrumbs(v) {
+    this.setState({
+      crumbs: this.state.crumbs + v
+    })
+  }
+
+  updateCheese(v) {
+    this.setState({
+      cheese: this.state.cheese + v
+    })
+  }
+
+  updatePoison(v) {
+    this.setState({
+      poison: this.state.poison + v
+    })
+  }
+
     render() {
       const showBoard = this.state.showBoard;
       const showInstructions = this.state.showInstructions;
@@ -77,7 +109,15 @@ class App extends React.Component {
           //TRUE
           <Board
             score={this.state.score}
+            crumbs={this.state.crumbs}
+            cheese={this.state.cheese}
+            poison={this.state.poison}
+            lives={this.state.lives}
             updateScore={this.updateScore}
+            updateLives={this.updateLives}
+            updateCrumbs={this.updateCrumbs}
+            updateCheese={this.updateCheese}
+            updatePoison={this.updatePoison}
             level={this.state.currentLevel}
             isPlaying={this.handlePlayClick}
             />

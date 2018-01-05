@@ -9,9 +9,11 @@ export default class Mouse extends React.Component {
       positionTop: 0,
       positionLeft: 0,
       direction: 'right',
+      prevDir: 'right',
       translateX: 0,
       translateY: 0,
-      currentTile: 'f'
+      currentTile: 'f',
+      rotation: 0
     }
     this.checkKeyPressed = this.checkKeyPressed.bind(this)
     this.moveMouse = this.moveMouse.bind(this)
@@ -52,6 +54,10 @@ export default class Mouse extends React.Component {
   }
 
   checkKeyPressed(event) {
+
+    this.setState({
+      prevDir: this.state.direction
+    })
 
     const mouse = document.querySelector('.mouse')
 
@@ -104,7 +110,7 @@ export default class Mouse extends React.Component {
       let tiles = this.getSurroundingTiles()
 
       const nextTile = document.getElementById(this.state.direction)
-      
+
       if (nextTile.className === 'w') {
         return
       }
@@ -149,18 +155,22 @@ export default class Mouse extends React.Component {
           setTimeout(() => {
             nextTile.className = 'f'
             this.props.updateScore(-5)
+            this.props.updatePoison(1)
+            this.props.updateLives(-1)
           }, 150)
           break;
         case 'x':
           setTimeout(() => {
             nextTile.className = 'f'
             this.props.updateScore(1)
+            this.props.updateCrumbs(1)
           }, 150)
           break;
         case 'y':
           setTimeout(() => {
             nextTile.className = 'f'
             this.props.updateScore(5)
+            this.props.updateCheese(1)
           }, 150)
           break;
         case 's':

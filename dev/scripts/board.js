@@ -37,6 +37,7 @@ export default class Board extends React.Component {
           pLeft={positionLeft}
           pTop={positionTop}
           isPlaying={this.props.isPlaying}
+          endLevel={this.props.endLevel}
         />
         
         <div className="gameInfo">

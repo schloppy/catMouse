@@ -23,7 +23,7 @@ button.close {
     @include flex-center;
     @include circle(3.5rem);
     position: absolute;
-    top: 38%;
+    top: 8%;
     left: 72%;
     z-index: 15;
     background: tomato;
@@ -41,7 +41,31 @@ button.close {
     width: 50%;
     padding: 2.5rem;
     position: absolute;
-    top: 40%;
+    top: 10%;
     left: 25%;
     z-index: 10;
+
+    ul {
+        margin-top: 2rem;
+        li {
+            margin: 1.5rem auto;
+        }
+    }
+    
+}
+
+.assets {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
+    div {
+        width: 5vh;
+        height: 5vh;
+        @include flex-center;
+        position: relative;
+        top: 10px;
+    }
 }

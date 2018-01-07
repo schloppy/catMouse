@@ -26,6 +26,7 @@ class App extends React.Component {
       showInstructions: false,
       showBoard: false,
       endScreen: false,
+      looseScreen:false,
       currentLevel: [],
       score: 0,
       lives: 5,
@@ -41,6 +42,7 @@ class App extends React.Component {
     this.nextLevel = this.nextLevel.bind(this);
     this.updateScore = this.updateScore.bind(this);
     this.endScreen = this.endScreen.bind(this);
+    this.looseScreen = this.looseScreen.bind(this);
     this.updateCrumbs = this.updateCrumbs.bind(this);
     this.updateCheese = this.updateCheese.bind(this);
     this.updatePoison = this.updatePoison.bind(this);
@@ -66,15 +68,16 @@ class App extends React.Component {
     })
   }
 
+  looseScreen() {
+    this.setState({
+      looseScreen: !this.state.endScreen
+    })
+  }
+
   playLevel(i) {
-    // if i is greater than 2, keep as 2, else keep currentLevel
     this.setState({
       currentLevel: levels[i]
     });
-  }
-
-  componentDidMount() {
-    this.playLevel(0);
   }
 
   returnHome() {
@@ -105,12 +108,19 @@ class App extends React.Component {
 
   nextLevel() {
     console.log('next level')
-    // toggle boardState setState currentLevel + 1, reset score, cheese, crumbs, poison. KEEP CURRENT LIVES
-    var currentLevel = this.state.currentLevel + 1
+    let i = levels.indexOf(this.state.currentLevel)
+    console.log(i)
+    if (i + 1 > 2) {
+      i = 1
+    }
+    this.playLevel(i+1)
     this.setState({
-      showBoard:!this.state.showBoard,
-      currentLevel,
-      
+      endScreen: !this.state.endScreen,
+      showBoard: !this.state.showBoard,
+      score: 0,
+      poison: 0,
+      crumbs:0,
+      cheese: 0
     })
   }
 
@@ -148,10 +158,17 @@ class App extends React.Component {
       poison: this.state.poison + v
     })
   }
+  
+  componentDidMount() {
+    this.playLevel(0);
+  }
 
     render() {
       const showBoard = this.state.showBoard;
       const showInstructions = this.state.showInstructions;
+      const showLooseScreen = this.state.looseScreen;
+      
+      
       return (
         // when showBoard = false, display introduction
         // when showBoard = true, display board
@@ -213,9 +230,11 @@ class App extends React.Component {
                       <button className="nextLevel" onClick={this.nextLevel}>Next Level</button>
                     </div>
                   
-                  </div>
-              )
+                  </div> //endScreen
+              ) //endScreen trueFalse
                 : null }
+
+              
           </div>
         )}
         </div>

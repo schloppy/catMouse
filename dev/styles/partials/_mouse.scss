@@ -12,3 +12,18 @@
     position: absolute;
   }
 }
+
+.cat {
+  width: 5vh;
+  position: absolute;
+  overflow: visible;
+  transition: transform 0.3s linear;
+  z-index: 1;
+  &::after {
+    content: '';
+    background: url('../assets/mouse.gif') 0 0/cover;
+    width: 8vh;
+    height: 8vh;
+    position: absolute;
+  }
+}

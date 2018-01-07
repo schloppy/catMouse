@@ -6,6 +6,7 @@
 // floor, crumbs, cheese, trap
 .f,
 .x,
+.k,
 .y,
 .t {
   position: relative;
@@ -14,6 +15,7 @@
 // trap, crumb, cheese
 .t,
 .x,
+.k,
 .y {
   &::before,
   &::after {
@@ -24,11 +26,14 @@
 // crumb, floor
 .x::before,
 .x::after,
+.k::before,
+.k::after,
 .f::before {
   position: absolute;
 }
 
 // crumb
+.k::before,
 .x::before {
   border-radius: 50%;
   background: #f4a519;
@@ -40,6 +45,7 @@
 }
 
 // crumb's shadow
+.k::after,
 .x::after {
   z-index: 1;
   border-radius: 50%;

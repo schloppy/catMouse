@@ -26,8 +26,10 @@ class App extends React.Component {
       showInstructions: false,
       showBoard: false,
       endScreen: false,
-      looseScreen:false,
+      looseScreen: false,
+      submitScore: false,
       currentLevel: [],
+      totalScore:0,
       score: 0,
       lives: 5,
       crumbs: 0,
@@ -40,9 +42,9 @@ class App extends React.Component {
     this.returnHome = this.returnHome.bind(this);
     this.replayLevel = this.replayLevel.bind(this);
     this.nextLevel = this.nextLevel.bind(this);
+    this.submitScore = this.submitScore.bind(this);
     this.updateScore = this.updateScore.bind(this);
     this.endScreen = this.endScreen.bind(this);
-    this.looseScreen = this.looseScreen.bind(this);
     this.updateCrumbs = this.updateCrumbs.bind(this);
     this.updateCheese = this.updateCheese.bind(this);
     this.updatePoison = this.updatePoison.bind(this);
@@ -59,18 +61,11 @@ class App extends React.Component {
     this.setState({
       showBoard: !this.state.showBoard
     })
-    console.log(this.state.ShowBoard)
   }
 
   endScreen() {
     this.setState({
       endScreen: !this.state.endScreen
-    })
-  }
-
-  looseScreen() {
-    this.setState({
-      looseScreen: !this.state.endScreen
     })
   }
 
@@ -84,6 +79,7 @@ class App extends React.Component {
     console.log('return home')
     this.setState({
       endScreen: !this.state.endScreen,
+      totalScore:0,
       score: 0,
       lives: 5,
       crumbs: 0,
@@ -99,6 +95,7 @@ class App extends React.Component {
       endScreen:!this.state.endScreen,
       showBoard:!this.state.showBoard,
       currentLevel: this.state.currentLevel,
+      totalScore: this.state.totalScore,
       score: 0,
       crumbs: 0,
       cheese: 0,
@@ -110,18 +107,24 @@ class App extends React.Component {
     console.log('next level')
     let i = levels.indexOf(this.state.currentLevel)
     console.log(i)
-    if (i + 1 > 2) {
-      i = 1
+    if (i + 1 > 1) {
+      this.setState({
+        submitScore: !this.state.submitScore
+      })
     }
     this.playLevel(i+1)
     this.setState({
       endScreen: !this.state.endScreen,
       showBoard: !this.state.showBoard,
-      score: 0,
+      totalScore: this.state.totalScore + this.state.score,
       poison: 0,
       crumbs:0,
       cheese: 0
     })
+  }
+  
+  submitScore() {
+    console.log('submit your score')
   }
 
   resetGame() {
@@ -136,9 +139,17 @@ class App extends React.Component {
   }
 
   updateLives(v) {
+    if (this.state.lives === 1) {
+      this.setState({ 
+        looseScreen: !this.state.looseScreen,
+        showBoard: !this.state.showBoard
+      }) //toggle looseScreen and showBoard
+    }
     this.setState({
       lives: this.state.lives + v
     })
+
+    // if this.state.lives === 0 endScreen, else +v
   }
 
   updateCrumbs(v) {
@@ -166,14 +177,8 @@ class App extends React.Component {
     render() {
       const showBoard = this.state.showBoard;
       const showInstructions = this.state.showInstructions;
-      const showLooseScreen = this.state.looseScreen;
-      
-      
+      const submitScore = this.state.submitScore;
       return (
-        // when showBoard = false, display introduction
-        // when showBoard = true, display board
-        // onClick "play" button, setState showBoard: true
-        
         <div className="gameFrame">
         
         {showBoard ? (
@@ -213,7 +218,6 @@ class App extends React.Component {
             </div>
               {showInstructions ? <Instructions /> : null}
               
-
                 {this.state.endScreen ? (
                   <div className="endScreen">
                   <Endscreen end={this.state.endScreen}
@@ -227,14 +231,27 @@ class App extends React.Component {
                     <div className="buttons">
                       <button className="returnHome" onClick={this.returnHome}>Home</button>
                       <button className="replayLevel" onClick={this.replayLevel}>Replay Level</button>
-                      <button className="nextLevel" onClick={this.nextLevel}>Next Level</button>
+                      
+
+                      {this.state.submitScore ? (
+                        <button className="submitScore" onClick={this.submitScore}>Submit Score</button>
+                      ) : (
+                        <button className="nextLevel" onClick={this.nextLevel}>Next Level</button>
+                      )}
+                      {/* if submitscore is true, then change to submit score */}
+                        
                     </div>
                   
                   </div> //endScreen
               ) //endScreen trueFalse
                 : null }
 
-              
+              {this.state.looseScreen ? (
+                <div className="looseScreen">
+                  <p>welp you loose</p>
+                </div>
+              )
+              : null }
           </div>
         )}
         </div>

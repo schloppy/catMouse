@@ -26,6 +26,7 @@ class App extends React.Component {
       showInstructions: false,
       showBoard: false,
       endScreen: false,
+      looseScreen:false,
       currentLevel: [],
       score: 0,
       lives: 5,
@@ -36,8 +37,12 @@ class App extends React.Component {
     this.handleInstructionClick = this.handleInstructionClick.bind(this);
     this.handlePlayClick = this.handlePlayClick.bind(this);
     this.playLevel = this.playLevel.bind(this);
+    this.returnHome = this.returnHome.bind(this);
+    this.replayLevel = this.replayLevel.bind(this);
+    this.nextLevel = this.nextLevel.bind(this);
     this.updateScore = this.updateScore.bind(this);
     this.endScreen = this.endScreen.bind(this);
+    this.looseScreen = this.looseScreen.bind(this);
     this.updateCrumbs = this.updateCrumbs.bind(this);
     this.updateCheese = this.updateCheese.bind(this);
     this.updatePoison = this.updatePoison.bind(this);
@@ -63,14 +68,65 @@ class App extends React.Component {
     })
   }
 
+  looseScreen() {
+    this.setState({
+      looseScreen: !this.state.endScreen
+    })
+  }
+
   playLevel(i) {
     this.setState({
       currentLevel: levels[i]
     });
   }
 
-  componentDidMount() {
-    this.playLevel(0);
+  returnHome() {
+    console.log('return home')
+    this.setState({
+      endScreen: !this.state.endScreen,
+      score: 0,
+      lives: 5,
+      crumbs: 0,
+      cheese: 0,
+      poison: 0
+    })
+  }
+
+  replayLevel() {
+    console.log('replay level')
+    // toggle board state + reset score, cheese, crumbs, poison
+    this.setState({
+      endScreen:!this.state.endScreen,
+      showBoard:!this.state.showBoard,
+      currentLevel: this.state.currentLevel,
+      score: 0,
+      crumbs: 0,
+      cheese: 0,
+      poison: 0
+    })
+  }
+
+  nextLevel() {
+    console.log('next level')
+    let i = levels.indexOf(this.state.currentLevel)
+    console.log(i)
+    if (i + 1 > 2) {
+      i = 1
+    }
+    this.playLevel(i+1)
+    this.setState({
+      endScreen: !this.state.endScreen,
+      showBoard: !this.state.showBoard,
+      score: 0,
+      poison: 0,
+      crumbs:0,
+      cheese: 0
+    })
+  }
+
+  resetGame() {
+    // reset level, score, scheese, crumbs, poison
+    // launch game
   }
 
   updateScore(v) {
@@ -102,10 +158,17 @@ class App extends React.Component {
       poison: this.state.poison + v
     })
   }
+  
+  componentDidMount() {
+    this.playLevel(0);
+  }
 
     render() {
       const showBoard = this.state.showBoard;
       const showInstructions = this.state.showInstructions;
+      const showLooseScreen = this.state.looseScreen;
+      
+      
       return (
         // when showBoard = false, display introduction
         // when showBoard = true, display board
@@ -133,9 +196,6 @@ class App extends React.Component {
 
         ) : (
           //FALSE
-          //introduction
-          //how to play button
-          //play button to show game
           <div className="startScreen">
             <Introduction />
             <div className="startButtons">
@@ -152,16 +212,32 @@ class App extends React.Component {
                 </button>
             </div>
               {showInstructions ? <Instructions /> : null}
-              <Endscreen end={this.state.endScreen}
-                currentLevel={levels.indexOf(this.state.currentLevel)}
-              score={this.state.score}
-              />
+              
+
+                {this.state.endScreen ? (
+                  <div className="endScreen">
+                  <Endscreen end={this.state.endScreen}
+                    currentLevel={levels.indexOf(this.state.currentLevel)}
+                    lives={this.state.lives}
+                    score={this.state.score}
+                    crumbs={this.state.crumbs}
+                    cheese={this.state.cheese}
+                    poison={this.state.poison} />
+
+                    <div className="buttons">
+                      <button className="returnHome" onClick={this.returnHome}>Home</button>
+                      <button className="replayLevel" onClick={this.replayLevel}>Replay Level</button>
+                      <button className="nextLevel" onClick={this.nextLevel}>Next Level</button>
+                    </div>
+                  
+                  </div> //endScreen
+              ) //endScreen trueFalse
+                : null }
+
+              
           </div>
         )}
-        
         </div>
-
-          
       )
     }
 }
@@ -170,11 +246,24 @@ function Endscreen(props) {
   if(!props.end) {
     return null;
   }
+
+  let currentLevel = props.currentLevel + 1
   return (
-    <div className="endScreen">
-      <p>Congrats you beat level  {props.currentLevel}</p>
-      <p>You got {props.score} score!
-      </p>
+    <div className="endScreenMsg">
+      <h3>Level {currentLevel}</h3>
+      <h2>You won!</h2>
+      <h2 className="points">You got {props.score} points! </h2>
+        <ul className="scoreBoard">
+          <li>
+          You have <span className="number">{props.lives}</span> lives left.</li>
+          <li>
+          You nibbled up <span className="number">{props.crumbs}</span> crumbs</li>
+          <li>
+          You collected <span className="number">{props.cheese}</span> cheese</li>
+          <li>
+          
+          You ran into <span className="number">{props.poison}</span> poison</li>
+        </ul>
     </div>
   )
 }

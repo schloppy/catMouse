@@ -24,7 +24,9 @@ export default class Board extends React.Component {
     for (let i = 0; i < this.props.lives; i++) {
       lives.push(<div className="life"></div>)
     }
-
+    
+    let score = this.props.score
+    if ( score < 0 ) { score = 0 }
     return (
       <div className="board" id="board">
         {this.props.level.map((tile, i) => <div className={`${tile}`} key={i}>.</div>)}
@@ -39,9 +41,8 @@ export default class Board extends React.Component {
             isPlaying={this.props.isPlaying}
             endLevel={this.props.endLevel}
           />
-        
         <div className="gameInfo">
-          {this.props.score}
+          {score}
           <span>
             {lives.map(heart => {
               return heart

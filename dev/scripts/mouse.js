@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+let mouseMovement = null
+
 export default class Mouse extends React.Component {
 
   constructor() {
@@ -19,6 +21,7 @@ export default class Mouse extends React.Component {
     this.moveMouse = this.moveMouse.bind(this)
     this.getSurroundingTiles = this.getSurroundingTiles.bind(this)
     this.rotateMouse = this.rotateMouse.bind(this)
+    this.autoMovement = this.autoMovement.bind(this)
   }
 
   getSurroundingTiles() {
@@ -102,111 +105,110 @@ export default class Mouse extends React.Component {
 
   }
 
-  moveMouse() {
+  autoMovement() {
 
-    const mouse = document.querySelector('.mouse')
+    const direction = this.state.direction
+    let tiles = this.getSurroundingTiles()
 
-    const autoMovement = () => {
-      
-      const direction = this.state.direction
-      let tiles = this.getSurroundingTiles()
+    const nextTile = document.getElementById(this.state.direction)
 
-      const nextTile = document.getElementById(this.state.direction)
+    if (nextTile.className === 'w') {
+      return
+    }
 
-      if (nextTile.className === 'w') {
-        return
-      }
+    switch (this.state.direction) {
+      case 'up':
+        if (nextTile.className === 'd' || this.state.currentTile === 'd') {
+          return
+        }
+        this.setState({
+          translateY: this.state.translateY - 1
+        })
+        break;
+      case 'right':
+        if (nextTile.className === 'b' || this.state.currentTile === 'b') {
+          return
+        }
+        this.setState({
+          translateX: this.state.translateX + 1
+        })
+        break;
+      case 'down':
+        if (nextTile.className === 'd' || this.state.currentTile === 'd') {
+          return
+        }
+        this.setState({
+          translateY: this.state.translateY + 1
+        })
+        break;
+      case 'left':
+        if (nextTile.className == 'b' || this.state.currentTile === 'b') {
+          return
+        }
+        this.setState({
+          translateX: this.state.translateX - 1
+        })
+        break;
+    }
 
-      switch (this.state.direction) {
-        case 'up':
-          if (nextTile.className === 'd' || this.state.currentTile === 'd') {
-            return
+    switch (nextTile.className) {
+      case 't':
+        setTimeout(() => {
+          nextTile.className = 'f'
+          this.props.updateScore(-5)
+          this.props.updatePoison(1)
+          this.props.updateLives(-1)
+        }, 150)
+        break;
+      case 'x':
+        setTimeout(() => {
+          nextTile.className = 'f'
+          this.props.updateScore(1)
+          this.props.updateCrumbs(1)
+        }, 150)
+        break;
+      case 'y':
+        setTimeout(() => {
+          nextTile.className = 'f'
+          this.props.updateScore(5)
+          this.props.updateCheese(1)
+        }, 150)
+        break;
+      case 's':
+        setTimeout(() => {
+          const hBridges = Array.from(document.querySelectorAll('.b'))
+          const vBridges = Array.from(document.querySelectorAll('.d'))
+          for (let i = 0; i < hBridges.length; i++) {
+            hBridges[i].className = 'd'
           }
-          this.setState({
-            translateY: this.state.translateY - 1
-          })
-          break;
-        case 'right':
-          if (nextTile.className === 'b' || this.state.currentTile === 'b') {
-            return
+          for (let i = 0; i < vBridges.length; i++) {
+            vBridges[i].className = 'b'
           }
-          this.setState({
-            translateX: this.state.translateX + 1
-          })
-          break;
-        case 'down':
-          if (nextTile.className === 'd' || this.state.currentTile === 'd') {
-            return
-          }
-          this.setState({
-            translateY: this.state.translateY + 1
-          })
-          break;
-        case 'left':
-          if (nextTile.className == 'b' || this.state.currentTile === 'b') {
-            return
-          }
-          this.setState({
-            translateX: this.state.translateX - 1
-          })
-          break;
-      }
-
-      switch (nextTile.className) {
-        case 't':
-          setTimeout(() => {
-            nextTile.className = 'f'
-            this.props.updateScore(-5)
-            this.props.updatePoison(1)
-            this.props.updateLives(-1)
-          }, 150)
-          break;
-        case 'x':
-          setTimeout(() => {
-            nextTile.className = 'f'
-            this.props.updateScore(1)
-            this.props.updateCrumbs(1)
-          }, 150)
-          break;
-        case 'y':
-          setTimeout(() => {
-            nextTile.className = 'f'
-            this.props.updateScore(5)
-            this.props.updateCheese(1)
-          }, 150)
-          break;
-        case 's':
-          setTimeout(() => {
-            const hBridges = Array.from(document.querySelectorAll('.b'))
-            const vBridges = Array.from(document.querySelectorAll('.d'))
-            for (let i = 0; i < hBridges.length; i++) {
-              hBridges[i].className = 'd'
-            }
-            for (let i = 0; i < vBridges.length; i++) {
-              vBridges[i].className = 'b'
-            }
-          }, 300)
-          break;
-        case 'e':
-          setTimeout(() => {
-            console.log('Level Ended!')
-            // props to parent to change gameboard state to dismount
-            this.props.isPlaying()
-            // props to parent to change state of levelEnded to mount
-            this.props.endLevel()
-            // turn off mouse event listeners
-            
-          }, 300)
-          break;
-
-      }
-
-      this.setState({
-        currentTile: nextTile.className
-      })
+        }, 300)
+        break;
+      case 'e':
+        setTimeout(() => {
+          console.log('Level Ended!')
+          // props to parent to change gameboard state to dismount
+          this.props.isPlaying()
+          // props to parent to change state of levelEnded to mount
+          this.props.endLevel()
+          // turn off mouse event listeners
+          // clearInterval(mouseMovement)
+        }, 300)
+        break;
 
     }
-    let movement = setInterval(autoMovement, 300)
+
+    this.setState({
+      currentTile: nextTile.className
+    })
+
+  }
+
+  moveMouse() {
+    const mouse = document.querySelector('.mouse')
+    mouseMovement = setInterval(this.autoMovement, 300)
   }
 
   rotateMouse() {
@@ -294,7 +296,11 @@ export default class Mouse extends React.Component {
     window.addEventListener('keydown', this.checkKeyPressed, false)
     this.moveMouse()
   }
-  
+
+  componentWillUnmount() {
+    clearInterval(mouseMovement)
+  }
+
   render() {
     return (
       <div

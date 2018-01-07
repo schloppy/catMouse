@@ -1,37 +1,45 @@
-import React from 'react';
+import React, { isValidElement } from 'react';
 import ReactDOM from 'react-dom';
 
-export default class Mouse extends React.Component {
+let catMovement = null
+
+export default class Cat extends React.Component {
 
   constructor() {
     super();
     this.state = {
+      positionTop: 0,
+      positionLeft: 0,
       direction: 'right',
+      prevDir: 'right',
       translateX: 0,
-      translateY: 0
+      translateY: 0,
+      currentTile: 'z',
+      rotation: 0
     }
-    this.checkKeyPressed = this.checkKeyPressed.bind(this)
-    this.moveMouse = this.moveMouse.bind(this)
+    this.moveCat = this.moveCat.bind(this)
     this.getSurroundingTiles = this.getSurroundingTiles.bind(this)
+    this.rotateCat = this.rotateCat.bind(this)
+    this.autoMovement = this.autoMovement.bind(this)
   }
 
   getSurroundingTiles() {
 
-    const mouse = document.querySelector('.mouse')
+    const mouse = document.querySelector('.cat')
     const board = document.getElementById('board')
 
     let tiles = Array.from(board.querySelectorAll('div'))
     tiles = tiles.filter(tile => {
-      return tile.id !== 'mouse'
+      return tile.id !== 'cat'
     })
 
     for (let tile in tiles) {
       tiles[tile].id = ''
     }
 
-    let p = board.offsetWidth / 10
-    let originX = mouse.offsetLeft + mouse.offsetWidth / 2 + (this.state.translateX * p),
-      originY = mouse.offsetTop + mouse.offsetHeight / 2 + (this.state.translateY * p)
+    let p = board.offsetWidth / 15
+    let originX = board.offsetLeft + mouse.offsetLeft + (mouse.offsetWidth / 2) + (this.state.translateX * p),
+      originY = board.offsetTop + mouse.offsetTop + (mouse.offsetHeight / 2) + (this.state.translateY * p)
 
     let top = document.elementFromPoint(originX, originY - mouse.offsetHeight)
     top.id = 'up'
@@ -42,202 +50,213 @@ export default class Mouse extends React.Component {
     let left = document.elementFromPoint(originX - mouse.offsetWidth, originY)
     left.id = 'left'
 
-    return [top, right, bottom, left]
+    let list = [top, right, bottom, left]
+    return list
 
   }
 
-  checkKeyPressed(event) {
+  autoMovement() {
 
-    const mouse = document.querySelector('.mouse')
+    const direction = this.state.direction
+    let tiles = this.getSurroundingTiles()
 
-    let p = board.offsetWidth / 10
-    let originX = mouse.offsetLeft + mouse.offsetWidth / 2 + (this.state.translateX * p),
-      originY = mouse.offsetTop + mouse.offsetHeight / 2 + (this.state.translateY * p)
-
-    const tiles = this.getSurroundingTiles()
-
-    switch (event.keyCode) {
-      case 38:
-        if (tiles[0].className !== 'w') {
-          this.setState({
-            direction: 'up'
-          })
-        }
-        break;
-      case 39:
-        if (tiles[1].className !== 'w') {
-          this.setState({
-            direction: 'right'
-          })
-        }
-        break;
-      case 40:
-        if (tiles[2].className !== 'w') {
-          this.setState({
-            direction: 'down'
-          })
-        }
-        break;
-      case 37:
-        if (tiles[3].className !== 'w') {
-          this.setState({
-            direction: 'left'
-          })
-        }
-        break;
-    }
-
-  }
-
-  moveMouse() {
-
-    const mouse = document.querySelector('.mouse')
-
-    const autoMovement = () => {
-
-      const direction = this.state.direction
-      let tiles = this.getSurroundingTiles()
-
-      tiles = tiles.filter(tile => {
-        let oppositeDirection
-        switch (this.state.direction) {
-          case 'up':
-            oppositeDirection = 'down'
-            break;
-          case 'right':
-            oppositeDirection = 'left'
-            break;
-          case 'down':
-            oppositeDirection = 'up'
-            break;
-          case 'left':
-            oppositeDirection = 'right'
-            break;
-        }
-        return tile.className !== 'w' && tile.id !== oppositeDirection
-      })
-
-      const getNewDirection = () => {
-        switch (tiles.length) {
-          case 0:
-            switch (this.state.direction) {
-              case 'up':
-                this.setState({
-                  direction: 'down'
-                })
-                break;
-              case 'right':
-                this.setState({
-                  direction: 'left'
-                })
-                break;
-              case 'down':
-                this.setState({
-                  direction: 'up'
-                })
-                break;
-              case 'left':
-                this.setState({
-                  direction: 'right'
-                })
-                break;
-            }
-            break;
-          case 1:
-            tiles = tiles.filter(tile => tile.id !== this.state.direction)
-            if (tiles.length > 0) {
-              this.setState({
-                direction: tiles[0].id
-              })
-            }
-            break;
-          case 2:
-            tiles = tiles.filter(tile => tile.id !== this.state.direction)
-            if (tiles.length === 2) {
-              this.setState({
-                direction: tiles[Math.round(Math.random())].id
-              })
-            }
-            break;
-        }
-      }
-
-      getNewDirection()
-
+    tiles = tiles.filter(tile => {
+      let oppositeDirection
       switch (this.state.direction) {
         case 'up':
-          this.setState({
-            translateY: this.state.translateY - 1
-          })
+          oppositeDirection = 'down'
           break;
         case 'right':
-          this.setState({
-            translateX: this.state.translateX + 1
-          })
+          oppositeDirection = 'left'
           break;
         case 'down':
-          this.setState({
-            translateY: this.state.translateY + 1
-          })
+          oppositeDirection = 'up'
           break;
         case 'left':
-          this.setState({
-            translateX: this.state.translateX - 1
-          })
+          oppositeDirection = 'right'
           break;
       }
+      return tile.className !== 'w' && tile.id !== oppositeDirection && tile.className !== 'b' && tile.className !== 'd' 
+    })
 
-      const nextTile = document.getElementById(this.state.direction)
-
-      switch (nextTile.className) {
-        case 't':
-          clearInterval(autoMovement)
-          setTimeout(() => {
+    switch (tiles.length) {
+      case 0:
+        switch (this.state.direction) {
+          case 'up':
             this.setState({
-              translateX: 0,
-              translateY: 0,
+              direction: 'down'
+            })
+            break;
+          case 'right':
+            this.setState({
+              direction: 'left'
+            })
+            break;
+          case 'down':
+            this.setState({
+              direction: 'up'
+            })
+            break;
+          case 'left':
+            this.setState({
               direction: 'right'
             })
-          }, 100)
-          break;
-        case 'x':
-          setTimeout(() => {
-            nextTile.className = 'f'
-            this.props.updateScore(1)
-          }, 50)
-          break;
-        case 'y':
-          setTimeout(() => {
-            nextTile.className = 'f'
-            this.props.updateScore(5)
-          }, 50)
-          break;
-        case 's':
-          setTimeout(() => {
-            const hBridges = Array.from(document.querySelectorAll('.b'))
-            const vBridges = Array.from(document.querySelectorAll('.d'))
-            for (let i = 0; i < hBridges.length; i++) {
-              hBridges[i].className = 'd'
-            }
-            for (let i = 0; i < vBridges.length; i++) {
-              vBridges[i].className = 'b'
-            }
-          }, 300)
-          break;
-      }
+            break;
+        }
+        break;
+      case 1:
+        tiles = tiles.filter(tile => tile.id !== this.state.direction)
+        if (tiles.length > 0) {
+          this.setState({
+            direction: tiles[0].id
+          })
+        }
+        break;
+      case 2:
+        tiles = tiles.filter(tile => tile.id !== this.state.direction)
+        if (tiles.length === 2) {
+          this.setState({
+            direction: tiles[Math.round(Math.random())].id
+          })
+        }
+        break;
     }
-    let movement = setInterval(autoMovement, 300)
+
+    let nextTile = document.getElementById(this.state.direction)
+
+    switch (this.state.direction) {
+      case 'up':
+        this.setState({
+          translateY: this.state.translateY - 1
+        })
+        break;
+      case 'right':
+        this.setState({
+          translateX: this.state.translateX + 1
+        })
+        break;
+      case 'down':
+        this.setState({
+          translateY: this.state.translateY + 1
+        })
+        break;
+      case 'left':
+        this.setState({
+          translateX: this.state.translateX - 1
+        })
+        break;
+    }
+
+    this.setState({
+      currentTile: nextTile.className
+    })
+
+  }
+
+  moveCat() {
+    catMovement = setInterval(this.autoMovement, 300)
+  }
+
+  rotateCat() {
+    switch (this.state.direction) {
+      case 'up':
+        switch (this.state.prevDir) {
+          case 'left':
+            this.setState({
+              rotation: this.state.rotation + 90
+            })
+            break;
+          case 'right':
+            this.setState({
+              rotation: this.state.rotation - 90
+            })
+            break;
+          case 'down':
+            this.setState({
+              rotation: this.state.rotation - 180
+            })
+            break;
+        }
+        break;
+      case 'right':
+        switch (this.state.prevDir) {
+          case 'left':
+            this.setState({
+              rotation: this.state.rotation + 180
+            })
+            break;
+          case 'up':
+            this.setState({
+              rotation: this.state.rotation + 90
+            })
+            break;
+          case 'down':
+            this.setState({
+              rotation: this.state.rotation - 90
+            })
+            break;
+        }
+        break;
+      case 'down':
+        switch (this.state.prevDir) {
+          case 'left':
+            this.setState({
+              rotation: this.state.rotation - 90
+            })
+            break;
+          case 'right':
+            this.setState({
+              rotation: this.state.rotation + 90
+            })
+            break;
+          case 'up':
+            this.setState({
+              rotation: this.state.rotation + 180
+            })
+            break;
+        }
+        break;
+      case 'left':
+        switch (this.state.prevDir) {
+          case 'up':
+            this.setState({
+              rotation: this.state.rotation - 90
+            })
+            break;
+          case 'right':
+            this.setState({
+              rotation: this.state.rotation - 180
+            })
+            break;
+          case 'down':
+            this.setState({
+              rotation: this.state.rotation + 90
+            })
+            break;
+        }
+        break;
+    }
   }
 
   componentDidMount() {
-    this.moveMouse()
-    window.addEventListener('keydown', this.checkKeyPressed, false)
+    this.moveCat()
+  }
+
+  componentWillUnmount() {
+    clearInterval(catMovement)
   }
 
   render() {
     return (
-      <div className="mouse" id="mouse" style={{ transform: `translate(${this.state.translateX * 5}vh, ${this.state.translateY * 5}vh)` }}>
-
+      <div
+        className="cat"
+        id="cat"
+        style={{
+          transform: `translate(${this.state.translateX * 5}vh, ${this.state.translateY * 5}vh)rotate(${this.state.rotation}deg)`,
+          top: `${this.props.pTop}vh`,
+          left: `${this.props.pLeft}%`
+        }}
+      >
       </div>
     )
   }

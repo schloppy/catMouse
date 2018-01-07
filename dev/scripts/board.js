@@ -2,23 +2,33 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Mouse from './mouse'
+import Cat from './cat'
 
 export default class Board extends React.Component {
   render() {
 
-    // This code grabs the index of the starting point, then calculates the position that the mouse will start on based on that index
+    // This code grabs the index of the maze's starting point, then calculates the position that the mouse will start on based on that index
     const { level } = this.props
 
-    const index = level.indexOf('z')
+    const mouseIndex = level.indexOf('z')
 
-    const multiple = index / 15
-    const remainder = multiple - parseInt(multiple)
+    let multiple = mouseIndex / 15
+    let remainder = multiple - parseInt(multiple)
 
-    const positionTop = (Math.floor(multiple) * 5)
-    const positionLeft = (remainder * 100)
+    let mousePositionTop = (Math.floor(multiple) * 5)
+    let mousePositionLeft = (remainder * 100)
+
+    // This code grabs the index of the cat's initial position, then calculates the position that the cat will start on based on that index
+
+    const catIndex = level.indexOf('k')
+
+    multiple = catIndex / 15
+    remainder = multiple - parseInt(multiple)
+
+    let catPositionTop = (Math.floor(multiple) * 5)
+    let catPositionLeft = (remainder * 100)
 
     // This code will determine how many lives to display next to the score
-
     let lives = []
 
     for (let i = 0; i < this.props.lives; i++) {
@@ -30,17 +40,21 @@ export default class Board extends React.Component {
     return (
       <div className="board" id="board">
         {this.props.level.map((tile, i) => <div className={`${tile}`} key={i}>.</div>)}
-          <Mouse
-            updateScore={this.props.updateScore}
-            updateCrumbs={this.props.updateCrumbs}
-            updateCheese={this.props.updateCheese}
-            updatePoison={this.props.updatePoison}
-            updateLives={this.props.updateLives}
-            pLeft={positionLeft}
-            pTop={positionTop}
-            isPlaying={this.props.isPlaying}
-            endLevel={this.props.endLevel}
-          />
+        <Mouse
+          updateScore={this.props.updateScore}
+          updateCrumbs={this.props.updateCrumbs}
+          updateCheese={this.props.updateCheese}
+          updatePoison={this.props.updatePoison}
+          updateLives={this.props.updateLives}
+          pLeft={mousePositionLeft}
+          pTop={mousePositionTop}
+          isPlaying={this.props.isPlaying}
+          endLevel={this.props.endLevel}
+        />
+        <Cat
+          pLeft={catPositionLeft}
+          pTop={catPositionTop}
+        />
         <div className="gameInfo">
           {score}
           <span>

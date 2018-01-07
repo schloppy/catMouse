@@ -161,6 +161,7 @@ export default class Mouse extends React.Component {
         }, 150)
         break;
       case 'x':
+      case 'k':
         setTimeout(() => {
           nextTile.className = 'f'
           this.props.updateScore(1)

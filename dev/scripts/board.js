@@ -39,7 +39,7 @@ export default class Board extends React.Component {
     if ( score < 0 ) { score = 0 }
     return (
       <div className="board" id="board">
-        {this.props.level.map((tile, i) => <div className={`${tile}`} key={i}>.</div>)}
+        {this.props.level.map((tile, i) => <div className={tile} key={i}></div>)}
         <Mouse
           updateScore={this.props.updateScore}
           updateCrumbs={this.props.updateCrumbs}

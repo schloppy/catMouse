@@ -28,17 +28,17 @@ export default class Board extends React.Component {
     return (
       <div className="board" id="board">
         {this.props.level.map((tile, i) => <div className={`${tile}`} key={i}>.</div>)}
-        <Mouse
-          updateScore={this.props.updateScore}
-          updateCrumbs={this.props.updateCrumbs}
-          updateCheese={this.props.updateCheese}
-          updatePoison={this.props.updatePoison}
-          updateLives={this.props.updateLives}
-          pLeft={positionLeft}
-          pTop={positionTop}
-          isPlaying={this.props.isPlaying}
-          endLevel={this.props.endLevel}
-        />
+          <Mouse
+            updateScore={this.props.updateScore}
+            updateCrumbs={this.props.updateCrumbs}
+            updateCheese={this.props.updateCheese}
+            updatePoison={this.props.updatePoison}
+            updateLives={this.props.updateLives}
+            pLeft={positionLeft}
+            pTop={positionTop}
+            isPlaying={this.props.isPlaying}
+            endLevel={this.props.endLevel}
+          />
         
         <div className="gameInfo">
           {this.props.score}

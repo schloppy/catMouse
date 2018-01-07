@@ -194,6 +194,8 @@ export default class Mouse extends React.Component {
             this.props.isPlaying()
             // props to parent to change state of levelEnded to mount
             this.props.endLevel()
+            // turn off mouse event listeners
+            
           }, 300)
           break;
 

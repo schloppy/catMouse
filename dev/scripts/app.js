@@ -63,8 +63,6 @@ class App extends React.Component {
   handlePlayClick() {
     this.setState({
       showBoard: !this.state.showBoard,
-      score: 0,
-      lives: 5
     })
   }
 
@@ -114,12 +112,12 @@ class App extends React.Component {
     this.setState({
       looseScreen: !this.state.looseScreen,
       showBoard: !this.state.showBoard,
-      totalScore: 0,
       score: 0,
+      totalScore: 0,
+      lives:5,
       crumbs: 0,
       cheese: 0,
-      poison: 0,
-      lives: 5
+      poison: 0
     })
   }
 
@@ -137,8 +135,9 @@ class App extends React.Component {
       endScreen: !this.state.endScreen,
       showBoard: !this.state.showBoard,
       totalScore: this.state.totalScore + this.state.score,
+      score: 0,
       poison: 0,
-      crumbs:0,
+      crumbs: 0,
       cheese: 0
     })
   }
@@ -152,11 +151,6 @@ class App extends React.Component {
     
   }
 
-  resetGame() {
-    // reset level, score, scheese, crumbs, poison
-    // launch game
-  }
-
   updateScore(v) {
     this.setState({
       score: this.state.score + v
@@ -166,15 +160,14 @@ class App extends React.Component {
   updateLives(v) {
     if (this.state.lives === 1) {
       this.setState({ 
-        looseScreen: !this.state.looseScreen,
-        showBoard: !this.state.showBoard
+        looseScreen: true,
+        showBoard: false,
+        lives: 0
       }) //toggle looseScreen and showBoard
     }
     this.setState({
       lives: this.state.lives + v
     })
-
-    // if this.state.lives === 0 endScreen, else +v
   }
 
   updateCrumbs(v) {
@@ -209,6 +202,7 @@ class App extends React.Component {
         {showBoard ? (
           //TRUE
           <Board
+            totalScore={this.state.totalScore}
             score={this.state.score}
             crumbs={this.state.crumbs}
             cheese={this.state.cheese}
@@ -248,6 +242,7 @@ class App extends React.Component {
                   <Endscreen end={this.state.endScreen}
                     currentLevel={levels.indexOf(this.state.currentLevel)}
                     lives={this.state.lives}
+                    totalScore={this.state.totalScore}
                     score={this.state.score}
                     crumbs={this.state.crumbs}
                     cheese={this.state.cheese}
@@ -314,13 +309,13 @@ function Endscreen(props) {
   if(!props.end) {
     return null;
   }
-
+  let score = props.totalScore + props.score
   let currentLevel = props.currentLevel + 1
   return (
     <div className="endScreenMsg">
       <h3>Level {currentLevel}</h3>
       <h2>You won!</h2>
-      <h2 className="points">You got {props.score} points! </h2>
+      <h2 className="points">You got {score} points! </h2>
         <ul className="scoreBoard">
           <li>
           You have <span className="number">{props.lives}</span> lives left.</li>

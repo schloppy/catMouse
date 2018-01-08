@@ -176,7 +176,16 @@ export default class Mouse extends React.Component {
         }, 150)
         break;
       case 's':
-        setTimeout(() => {
+      case 'u':
+      setTimeout(() => {
+          switch (nextTile.className) {
+            case 's':
+              nextTile.className = 'u'
+              break;
+            case 'u':
+              nextTile.className = 's'
+              break;
+          }
           const hBridges = Array.from(document.querySelectorAll('.b'))
           const vBridges = Array.from(document.querySelectorAll('.d'))
           for (let i = 0; i < hBridges.length; i++) {

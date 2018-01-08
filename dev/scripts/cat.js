@@ -66,27 +66,6 @@ export default class Cat extends React.Component {
     const board = document.getElementById('board')
     let p = board.offsetWidth / 15
 
-    const fromX = Math.floor(el.offsetLeft + (this.state.translateX * p))
-    const toX = Math.floor(el.offsetLeft + el.clientWidth + (this.state.translateX * p))
-    const fromY = Math.floor(el.offsetTop + (this.state.translateY * p))
-    const toY = Math.floor(el.offsetTop + el.clientHeight + (this.state.translateY * p))
-
-    this.setState({
-      range: {
-        fromX,
-        toX,
-        fromY,
-        toY,
-      }
-    }, () => {
-      this.props.movement({
-        fromX,
-        toX,
-        fromY,
-        toY,
-      })
-    })
-
     this.setState({
       prevDir: this.state.direction
     })

@@ -5,6 +5,7 @@ import Mouse from './mouse'
 import Cat from './cat'
 
 export default class Board extends React.Component {
+
   render() {
 
     // This code grabs the index of the maze's starting point, then calculates the position that the mouse will start on based on that index
@@ -39,7 +40,7 @@ export default class Board extends React.Component {
     if ( score < 0 ) { score = 0 }
     return (
       <div className="board" id="board">
-        {this.props.level.map((tile, i) => <div className={tile} key={i}></div>)}
+        {this.props.level.map((tile, i) => <div className={tile} key={i} num={i}></div>)}
         <Mouse
           updateScore={this.props.updateScore}
           updateCrumbs={this.props.updateCrumbs}
@@ -50,10 +51,12 @@ export default class Board extends React.Component {
           pTop={mousePositionTop}
           isPlaying={this.props.isPlaying}
           endLevel={this.props.endLevel}
+          collision={this.collisionCheck}
         />
         <Cat
           pLeft={catPositionLeft}
           pTop={catPositionTop}
+          collision={this.collisionCheck}
         />
         <div className="gameInfo">
           {score}

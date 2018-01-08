@@ -268,7 +268,12 @@ class App extends React.Component {
                 <div className="looseScreen"> 
                   <LooseScreen 
                   loose={this.state.looseScreen}
+                  currentLevel={levels.indexOf(this.state.currentLevel)}
+                  score={this.state.score}
                   totalScore={this.state.totalScore} 
+                  crumbs={this.state.crumbs}
+                  cheese={this.state.cheese}
+                  poison={this.state.poison}
                   />
                   <div className="buttons">
                     <button className="returnHome" onClick={this.returnHome}>Home</button>
@@ -297,16 +302,54 @@ function LooseScreen(props) {
   if(!props.loose) {
     return null;
   }
+  let score = props.totalScore + props.score
+  let currentLevel = props.currentLevel + 1
   return (
-    <div className="looseScreen msg">
-      <h3>Sorry you loose</h3>
-      <h3>You scored {props.totalScore} points!</h3>
+    <div className="looseScreenMsg">
+
+      <h3>Level {currentLevel}</h3>
+
+      <h2>Sorry, you killed Stu.</h2>
+
+      <p>Welp, looks like you killed Stu by running into too much poison and lost all his lives.</p>
+
+      <h3>You've nibbled up...</h3>
+      <ul className="scoreBoard">
+        <li>
+          <p className="item">Crumbs</p>
+          <div className="x"></div>
+          <p className="number">{props.crumbs}</p>
+        </li>
+        
+        <li>
+          <p className="item">Cheese</p>
+          <div className="y"></div>
+          <p className="number">{props.cheese}</p>
+        </li>
+        
+        <li>
+          <p className="item">Poison</p>
+          <div className="t"></div>
+          <p className="number"> - {props.poison}</p>
+        </li>
+        
+        <li>
+          <p className="levelScore">Level Score</p>
+          <div> </div>
+          <p className="number">{props.score}</p>
+        </li>
+      </ul>
+      
+      <div className="totalScore">
+        <h3>Total Score</h3>
+        <h3>{score}</h3>
+      </div>
     </div>
   )
 }
 
 function Endscreen(props) {
-  if(!props.end) {
+    if(!props.end) {
     return null;
   }
   let score = props.totalScore + props.score

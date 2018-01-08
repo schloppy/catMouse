@@ -1,5 +1,12 @@
 // endscreen
 
+.buttons {
+        width: 80%;
+        display: flex;
+        align-self: center;
+        justify-content: space-around;
+    }
+
 div.endScreen {
     margin: 0 auto;
     width: 80vh;
@@ -13,12 +20,6 @@ div.endScreen {
     flex-direction: column;
     justify-content: space-around;
     @include roundCorners(3rem);
-    .buttons {
-        width: 80%;
-        display: flex;
-        align-self: center;
-        justify-content: space-around;
-    }
 }
 
 .endScreenMsg {
@@ -28,4 +29,9 @@ div.endScreen {
             font-size: 3rem;
         }
     }    
+}
+
+div.looseScreen {
+    @extend div.endScreen;
+    background: tomato;
 }

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Instructions from './instructions';
 import Board from './board';
 import levels from './levels';
+import Highscores from './highscores';
 
 function Introduction() {
   return (
@@ -28,6 +29,7 @@ class App extends React.Component {
       endScreen: false,
       looseScreen: false,
       submitScore: false,
+      showHighscores: false,
       currentLevel: [],
       totalScore:0,
       score: 0,
@@ -41,6 +43,7 @@ class App extends React.Component {
     this.playLevel = this.playLevel.bind(this);
     this.returnHome = this.returnHome.bind(this);
     this.replayLevel = this.replayLevel.bind(this);
+    this.replayGame = this.replayGame.bind(this);
     this.nextLevel = this.nextLevel.bind(this);
     this.submitScore = this.submitScore.bind(this);
     this.updateScore = this.updateScore.bind(this);
@@ -59,7 +62,9 @@ class App extends React.Component {
 
   handlePlayClick() {
     this.setState({
-      showBoard: !this.state.showBoard
+      showBoard: !this.state.showBoard,
+      score: 0,
+      lives: 5
     })
   }
 
@@ -78,7 +83,8 @@ class App extends React.Component {
   returnHome() {
     console.log('return home')
     this.setState({
-      endScreen: !this.state.endScreen,
+      endScreen: false,
+      looseScreen: false,
       totalScore:0,
       score: 0,
       lives: 5,
@@ -103,6 +109,20 @@ class App extends React.Component {
     })
   }
 
+  replayGame() {
+    this.playLevel(0)
+    this.setState({
+      looseScreen: !this.state.looseScreen,
+      showBoard: !this.state.showBoard,
+      totalScore: 0,
+      score: 0,
+      crumbs: 0,
+      cheese: 0,
+      poison: 0,
+      lives: 5
+    })
+  }
+
   nextLevel() {
     console.log('next level')
     let i = levels.indexOf(this.state.currentLevel)
@@ -124,7 +144,12 @@ class App extends React.Component {
   }
   
   submitScore() {
-    console.log('submit your score')
+    this.setState({
+      endScreen:false,
+      looseScreen: false,
+      showHighscores: true
+    })
+    
   }
 
   resetGame() {
@@ -237,9 +262,7 @@ class App extends React.Component {
                         <button className="submitScore" onClick={this.submitScore}>Submit Score</button>
                       ) : (
                         <button className="nextLevel" onClick={this.nextLevel}>Next Level</button>
-                      )}
-                      {/* if submitscore is true, then change to submit score */}
-                        
+                      )}              
                     </div>
                   
                   </div> //endScreen
@@ -247,16 +270,44 @@ class App extends React.Component {
                 : null }
 
               {this.state.looseScreen ? (
-                <div className="looseScreen">
-                  <p>welp you loose</p>
+                <div className="looseScreen"> 
+                  <LooseScreen 
+                  loose={this.state.looseScreen}
+                  totalScore={this.state.totalScore} 
+                  />
+                  <div className="buttons">
+                    <button className="returnHome" onClick={this.returnHome}>Home</button>
+                    <button className="replayLevel" onClick={this.replayGame}>Replay Game</button>
+                    <button className="submitScore" onClick={this.submitScore}>Submit Score</button>
+                  </div>
+
                 </div>
               )
               : null }
+
+              {this.state.showHighscores ? (
+                <Highscores
+                  totalScore={this.state.totalScore}
+                />
+                ) 
+                : null}
           </div>
         )}
         </div>
       )
     }
+}
+
+function LooseScreen(props) {
+  if(!props.loose) {
+    return null;
+  }
+  return (
+    <div className="looseScreen msg">
+      <h3>Sorry you loose</h3>
+      <h3>You scored {props.totalScore} points!</h3>
+    </div>
+  )
 }
 
 function Endscreen(props) {

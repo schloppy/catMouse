@@ -52,10 +52,19 @@ export default class Cat extends React.Component {
 
     let list = [top, right, bottom, left]
     return list
-
   }
 
   autoMovement() {
+
+    const cat = document.querySelector('.cat')
+    const board = document.getElementById('board')
+    let p = board.offsetWidth / 15
+
+    console.log(`X range: ${cat.offsetLeft + (this.state.translateX * p)} – ${cat.offsetLeft + cat.clientWidth + (this.state.translateX * p)}`)
+
+    this.setState({
+      prevDir: this.state.direction
+    })
 
     const direction = this.state.direction
     let tiles = this.getSurroundingTiles()
@@ -122,6 +131,8 @@ export default class Cat extends React.Component {
         break;
     }
 
+    this.rotateCat()
+
     let nextTile = document.getElementById(this.state.direction)
 
     switch (this.state.direction) {
@@ -150,7 +161,6 @@ export default class Cat extends React.Component {
     this.setState({
       currentTile: nextTile.className
     })
-
   }
 
   moveCat() {

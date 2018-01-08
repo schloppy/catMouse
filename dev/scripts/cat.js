@@ -15,7 +15,13 @@ export default class Cat extends React.Component {
       translateX: 0,
       translateY: 0,
       currentTile: 'z',
-      rotation: 0
+      rotation: 0,
+      range: {
+        fromX: 0,
+        toX: 0,
+        fromY: 0,
+        toY: 0
+      }
     }
     this.moveCat = this.moveCat.bind(this)
     this.getSurroundingTiles = this.getSurroundingTiles.bind(this)
@@ -56,7 +62,7 @@ export default class Cat extends React.Component {
 
   autoMovement() {
 
-    const cat = document.querySelector('.cat')
+    const el = document.querySelector('.cat')
     const board = document.getElementById('board')
     let p = board.offsetWidth / 15
 

@@ -107,10 +107,6 @@ export default class Mouse extends React.Component {
 
   autoMovement() {
 
-    const mouse = document.querySelector('.mouse')
-    const board = document.getElementById('board')
-    let p = board.offsetWidth / 15
-
     const direction = this.state.direction
     let tiles = this.getSurroundingTiles()
 

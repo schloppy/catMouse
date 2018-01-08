@@ -13,7 +13,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
-const dbRef = firebase.database.ref;
+const dbRef = firebase.database().ref();
 
 export default class Highscores extends React.Component {
     constructor(props) {

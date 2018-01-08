@@ -60,8 +60,6 @@ export default class Cat extends React.Component {
     const board = document.getElementById('board')
     let p = board.offsetWidth / 15
 
-    console.log(`X range: ${cat.offsetLeft + (this.state.translateX * p)} – ${cat.offsetLeft + cat.clientWidth + (this.state.translateX * p)}`)
-
     this.setState({
       prevDir: this.state.direction
     })

@@ -15,7 +15,13 @@ export default class Cat extends React.Component {
       translateX: 0,
       translateY: 0,
       currentTile: 'z',
-      rotation: 0
+      rotation: 0,
+      range: {
+        fromX: 0,
+        toX: 0,
+        fromY: 0,
+        toY: 0
+      }
     }
     this.moveCat = this.moveCat.bind(this)
     this.getSurroundingTiles = this.getSurroundingTiles.bind(this)
@@ -56,11 +62,30 @@ export default class Cat extends React.Component {
 
   autoMovement() {
 
-    const cat = document.querySelector('.cat')
+    const el = document.querySelector('.cat')
     const board = document.getElementById('board')
     let p = board.offsetWidth / 15
 
-    console.log(`X range: ${cat.offsetLeft + (this.state.translateX * p)} – ${cat.offsetLeft + cat.clientWidth + (this.state.translateX * p)}`)
+    const fromX = Math.floor(el.offsetLeft + (this.state.translateX * p))
+    const toX = Math.floor(el.offsetLeft + el.clientWidth + (this.state.translateX * p))
+    const fromY = Math.floor(el.offsetTop + (this.state.translateY * p))
+    const toY = Math.floor(el.offsetTop + el.clientHeight + (this.state.translateY * p))
+
+    this.setState({
+      range: {
+        fromX,
+        toX,
+        fromY,
+        toY,
+      }
+    }, () => {
+      this.props.movement({
+        fromX,
+        toX,
+        fromY,
+        toY,
+      })
+    })
 
     this.setState({
       prevDir: this.state.direction

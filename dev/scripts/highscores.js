@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as firease from 'firebase';
+import * as firebase from 'firebase';
 
 // Initialize Firebase
 var config = {
@@ -13,7 +13,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
-const dbRef = firebase.database.ref();
+const dbRef = firebase.database().ref();
 
 export default class Highscores extends React.Component {
     constructor(props) {
@@ -77,7 +77,7 @@ class List extends React.Component {
             for (let itemsKey in allScoresData) {
                 allScores.push({
                     key: itemsKey,
-                    playerName: allScoresData.[itemsKey].playerName,
+                    playerName: allScoresData[itemsKey].playerName,
                     totalScore: allScoresData[itemsKey].totalScore
                 })
             }

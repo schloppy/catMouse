@@ -28,7 +28,6 @@ export default class Board extends React.Component {
     }
     
     let score = this.props.score + this.props.totalScore
-    console.log(this.props.score, this.props.totalScore)
     if ( score < 0 ) { score = 0 }
     return (
       <div className="board" id="board">

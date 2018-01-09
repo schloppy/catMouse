@@ -1,3 +1,26 @@
+// score
+ul.scoreBoard {
+        width: 80%;
+        margin: 0 auto;
+        li {
+            display: flex;
+            justify-content: space-between;
+            p {
+                font-family: $primaryFont;
+            }
+            p.item {
+                text-align: left;
+            }
+            p.number {
+                text-align: right;
+            }
+            div {
+                width: 5vh;
+                height: 5vh;
+            }
+        }
+    }
+
 // endscreen
 
 .buttons {
@@ -31,7 +54,66 @@ div.endScreen {
     }    
 }
 
+// loose screen
+
 div.looseScreen {
     @extend div.endScreen;
     background: tomato;
+}
+
+// highScores screen
+
+div.highscoresScreen {
+    @extend div.endScreen;
+    background: $accentColor1;
+    buttons {
+        background: $accentColor2;
+    }
+}
+
+div.submitScore {
+    background: $accentColor2;
+    padding: 2rem;
+    @include roundCorners(2rem);
+    width: 90%;
+    form {
+        display: flex;
+        justify-content: space-around;
+        input[type="text"] {
+            width: 50%;
+            font: $bodyFont;
+        }
+        input[type="number"] {
+            width: 20%;
+            font: $primaryFont;
+            background: none;
+            border: none;
+        }
+        button.submit {
+            width: 20%;
+        }
+    }
+}
+
+ul.topScores {
+    li {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font: $bodyFont;
+        margin: 0.2rem auto;
+        width: 60%;
+        p {
+            margin: 0;
+            padding: 0;
+        }
+        p.playerName {
+            width: 50%;
+            text-align: left;
+        }
+        p.score {
+            width: 40%;
+            text-align: right;
+        }
+    }
 }

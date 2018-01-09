@@ -18,6 +18,13 @@ ul.scoreBoard {
                 width: 5vh;
                 height: 5vh;
             }
+            div.t::before, div.y::before {
+                width: 5vh;
+                height: 5vh;
+                position: absolute;
+                top: 0;
+                left:0;
+            }
         }
     }
 
@@ -66,28 +73,39 @@ div.looseScreen {
 div.highscoresScreen {
     @extend div.endScreen;
     background: $accentColor1;
-    buttons {
+    button {
         background: $accentColor2;
     }
 }
 
+ul.topScores {
+    margin: 3rem auto;
+}
+
 div.submitScore {
-    background: $accentColor2;
-    padding: 2rem;
+    padding: 1rem;
     @include roundCorners(2rem);
     width: 90%;
+    height: 15vh;
+    display:flex;
+    align-items: center;
     form {
         display: flex;
         justify-content: space-around;
         input[type="text"] {
             width: 50%;
             font: $bodyFont;
+            padding: 0.8rem;
         }
         input[type="number"] {
             width: 20%;
             font: $primaryFont;
             background: none;
             border: none;
+            color: white;
+            font-size: 1.4rem;
+            margin-left: 2rem;
+            padding-left: 1.2rem;
         }
         button.submit {
             width: 20%;
@@ -101,7 +119,7 @@ ul.topScores {
         flex-direction: row;
         justify-content: space-between;
         font: $bodyFont;
-        margin: 0.2rem auto;
+        margin: 0 auto;
         width: 60%;
         p {
             margin: 0;

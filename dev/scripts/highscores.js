@@ -51,7 +51,7 @@ export default class Highscores extends React.Component {
                 {this.state.submitScore ? (
                     <div className="submitScore">
                         <form action="" onSubmit={this.handleSubmit}>
-                            <input type="text" name="playerName"
+                            <input type="text" placeholder="Type in your name here" name="playerName"
                                 onChange={this.handleChange}
                                 value={this.state.playerName} />
                             <input type="number"
@@ -77,32 +77,7 @@ class List extends React.Component {
             scoresByOrder: [],
             top10Scores: [],
         }
-        this.compareValues = this.compareValues.bind(this);
     }
-
-    compareValues(key, order = 'asc') {
-    return function (a, b) {
-        if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-            // property doesn't exist on either object
-            return 0;
-        }
-
-        const varA = (typeof a[key] === 'string') ?
-            a[key].toUpperCase() : a[key];
-        const varB = (typeof b[key] === 'string') ?
-            b[key].toUpperCase() : b[key];
-
-        let comparison = 0;
-        if (varA > varB) {
-            comparison = 1;
-        } else if (varA < varB) {
-            comparison = -1;
-        }
-        return (
-            (order == 'asc') ? (comparison * -1) : comparison
-        );
-    };
-}
 
     componentDidMount() {
         dbRef.on('value', (firebaseData) => {
@@ -111,6 +86,7 @@ class List extends React.Component {
 
             for (let itemsKey in allScoresData) {
                 allScores.push({
+                    '.priority': -allScoresData[itemsKey].playerTotalScore,
                     key: itemsKey,
                     playerName: allScoresData[itemsKey].playerName,
                     totalScore: allScoresData[itemsKey].playerTotalScore
@@ -118,8 +94,7 @@ class List extends React.Component {
             }
             this.setState({
                 storedItems: allScores,
-                scoresByOrder: allScores.sort(this.compareValues('totalScore')),
-                top10Scores: this.state.scoresByOrder.slice(0,10)
+                top10Scores: allScores.slice(0,10)
             });
         })
     }
@@ -128,6 +103,10 @@ class List extends React.Component {
         return (
                 <ul className="topScores">
                     {/* loop and print only top 15 */}
+                    <li>
+                        <p className="playerName"><strong>Player Name</strong></p>
+                        <p className="score"><strong>Score</strong></p>
+                    </li>
                     {this.state.top10Scores.map((pair) => {
                         return (
                             <li key={pair.key}>

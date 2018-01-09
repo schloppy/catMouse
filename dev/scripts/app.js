@@ -82,8 +82,8 @@ class App extends React.Component {
     console.log('return home')
     this.setState({
       endScreen: false,
-      looseScreen: false,
-      showHighScores: false,
+      looseScreen: false, 
+      showHighscores: false,
       totalScore:0,
       score: 0,
       lives: 5,
@@ -310,7 +310,7 @@ function LooseScreen(props) {
   if(!props.loose) {
     return null;
   }
-  if (props.score < 0) { props.score = 0 };
+
   let score = props.totalScore + props.score
   let currentLevel = props.currentLevel + 1
 
@@ -326,21 +326,21 @@ function LooseScreen(props) {
       <h3>You've nibbled up...</h3>
       <ul className="scoreBoard">
         <li>
-          <p className="item">Crumbs</p>
+          <p className="item">{props.crumbs} Crumbs</p>
           <div className="x"></div>
-          <p className="number">{props.crumbs}</p>
+          <p className="number">+ {props.crumbs}</p>
         </li>
         
         <li>
-          <p className="item">Cheese</p>
+          <p className="item">{props.cheese} Cheese</p>
           <div className="y"></div>
-          <p className="number">{props.cheese}</p>
+          <p className="number">{props.cheese * 5}</p>
         </li>
         
         <li>
-          <p className="item">Poison</p>
+          <p className="item">{props.poison} Poison</p>
           <div className="t"></div>
-          <p className="number"> - {props.poison}</p>
+          <p className="number"> - {props.poison * 5}</p>
         </li>
         
         <li>
@@ -363,7 +363,6 @@ function Endscreen(props) {
     return null;
   }
   let currentLevel = props.currentLevel + 1
-  if (props.score < 0) { props.score = 0 }
   return (
     <div className="endScreenMsg">
       <h3>Level {currentLevel}</h3>
@@ -375,21 +374,21 @@ function Endscreen(props) {
       <h3>You've nibbled up...</h3>
       <ul className="scoreBoard">
         <li>
-          <p className="item">Crumbs</p>
+          <p className="item">{props.crumbs} Crumbs</p>
           <div className="x"></div>
           <p className="number"> + {props.crumbs} points</p>
         </li>
 
         <li>
-          <p className="item">Cheese</p>
+          <p className="item">{props.cheese} Cheese</p>
           <div className="y"></div>
-          <p className="number">+ {props.cheese} points</p>
+          <p className="number">+ {props.cheese * 5} points</p>
         </li>
 
         <li>
-          <p className="item">Poison</p>
+          <p className="item">{props.poison} Poison</p>
           <div className="t"></div>
-          <p className="number"> - {props.poison} points</p>
+          <p className="number"> - {props.poison * 5} points</p>
         </li>
 
         <li>

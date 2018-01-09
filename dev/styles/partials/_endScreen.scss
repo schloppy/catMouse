@@ -18,6 +18,13 @@ ul.scoreBoard {
                 width: 5vh;
                 height: 5vh;
             }
+            div.t::before, div.y::before {
+                width: 5vh;
+                height: 5vh;
+                position: absolute;
+                top: 0;
+                left:0;
+            }
         }
     }
 

@@ -83,6 +83,7 @@ class App extends React.Component {
     this.setState({
       endScreen: false,
       looseScreen: false,
+      showHighScores: false,
       totalScore:0,
       score: 0,
       lives: 5,
@@ -110,8 +111,9 @@ class App extends React.Component {
   replayGame() {
     this.playLevel(0)
     this.setState({
-      looseScreen: !this.state.looseScreen,
-      showBoard: !this.state.showBoard,
+      looseScreen: false,
+      showBoard: true,
+      showHighscores: false,
       score: 0,
       totalScore: 0,
       lives:5,
@@ -144,6 +146,7 @@ class App extends React.Component {
   
   submitScore() {
     this.setState({
+      totalScore: this.state.totalScore + this.state.score,
       endScreen:false,
       looseScreen: false,
       showHighscores: true
@@ -252,7 +255,6 @@ class App extends React.Component {
                       <button className="returnHome" onClick={this.returnHome}>Home</button>
                       <button className="replayLevel" onClick={this.replayLevel}>Replay Level</button>
                       
-
                       {this.state.submitScore ? (
                         <button className="submitScore" onClick={this.submitScore}>Submit Score</button>
                       ) : (
@@ -277,7 +279,7 @@ class App extends React.Component {
                   />
                   <div className="buttons">
                     <button className="returnHome" onClick={this.returnHome}>Home</button>
-                    <button className="replayLevel" onClick={this.replayGame}>Replay Game</button>
+                    <button className="replayGame" onClick={this.replayGame}>Replay Game</button>
                     <button className="submitScore" onClick={this.submitScore}>Submit Score</button>
                   </div>
 
@@ -286,9 +288,15 @@ class App extends React.Component {
               : null }
 
               {this.state.showHighscores ? (
-                <Highscores
-                  totalScore={this.state.totalScore}
-                />
+                <div className="highscoresScreen">
+                  <Highscores
+                    totalScore={this.state.totalScore}
+                  />
+                  <div className="buttons">
+                      <button className="returnHome" onClick={this.returnHome}>Home</button>
+                      <button className="replayGame" onClick={this.replayGame}>Replay Game</button>
+                  </div>
+                </div>
                 ) 
                 : null}
           </div>
@@ -302,8 +310,10 @@ function LooseScreen(props) {
   if(!props.loose) {
     return null;
   }
+  if (props.score < 0) { props.score = 0 };
   let score = props.totalScore + props.score
   let currentLevel = props.currentLevel + 1
+
   return (
     <div className="looseScreenMsg">
 
@@ -352,28 +362,50 @@ function Endscreen(props) {
     if(!props.end) {
     return null;
   }
-  let score = props.totalScore + props.score
   let currentLevel = props.currentLevel + 1
+  if (props.score < 0) { props.score = 0 }
   return (
     <div className="endScreenMsg">
       <h3>Level {currentLevel}</h3>
+
       <h2>You won!</h2>
-      <h2 className="points">You got {score} points! </h2>
-        <ul className="scoreBoard">
-          <li>
-          You have <span className="number">{props.lives}</span> lives left.</li>
-          <li>
-          You nibbled up <span className="number">{props.crumbs}</span> crumbs</li>
-          <li>
-          You collected <span className="number">{props.cheese}</span> cheese</li>
-          <li>
-          
-          You ran into <span className="number">{props.poison}</span> poison</li>
-        </ul>
+
+      <p>Great job, you got Stu to the end of the maze!</p>
+
+      <h3>You've nibbled up...</h3>
+      <ul className="scoreBoard">
+        <li>
+          <p className="item">Crumbs</p>
+          <div className="x"></div>
+          <p className="number"> + {props.crumbs} points</p>
+        </li>
+
+        <li>
+          <p className="item">Cheese</p>
+          <div className="y"></div>
+          <p className="number">+ {props.cheese} points</p>
+        </li>
+
+        <li>
+          <p className="item">Poison</p>
+          <div className="t"></div>
+          <p className="number"> - {props.poison} points</p>
+        </li>
+
+        <li>
+          <p className="levelScore">Level Score</p>
+          <div> </div>
+          <p className="number">{props.score} points</p>
+        </li>
+      </ul>
+
+      <div className="totalScore">
+        <h3>Total Score</h3>
+        <h3>{props.score + props.totalScore} points</h3>
+      </div>
+
     </div>
   )
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
-
-

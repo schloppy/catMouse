@@ -82,8 +82,8 @@ class App extends React.Component {
     console.log('return home')
     this.setState({
       endScreen: false,
-      looseScreen: false,
-      showHighScores: false,
+      looseScreen: false, 
+      showHighscores: false,
       totalScore:0,
       score: 0,
       lives: 5,

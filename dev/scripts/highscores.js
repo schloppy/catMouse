@@ -51,7 +51,7 @@ export default class Highscores extends React.Component {
                 {this.state.submitScore ? (
                     <div className="submitScore">
                         <form action="" onSubmit={this.handleSubmit}>
-                            <input type="text" name="playerName"
+                            <input type="text" placeholder="Type in your name here" name="playerName"
                                 onChange={this.handleChange}
                                 value={this.state.playerName} />
                             <input type="number"
@@ -103,6 +103,10 @@ class List extends React.Component {
         return (
                 <ul className="topScores">
                     {/* loop and print only top 15 */}
+                    <li>
+                        <p className="playerName"><strong>Player Name</strong></p>
+                        <p className="score"><strong>Score</strong></p>
+                    </li>
                     {this.state.top10Scores.map((pair) => {
                         return (
                             <li key={pair.key}>
